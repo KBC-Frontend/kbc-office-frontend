@@ -1,18 +1,6 @@
-## Getting Started
-
-프로젝트 실행 하기:
-
-```bash
-npm install
-# first
-
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000)
+## 작업 내용  
++ 내 일정 페이지 상단 제작  
++ 내 일정 페이지 하단 제작  
++ 내 일정 등록 페이지 제작  
++ 카테고리 변경 제작  
++ 일정 상세 페이지 제작  
