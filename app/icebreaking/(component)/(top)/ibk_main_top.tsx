@@ -10,10 +10,13 @@ import UnSubscribeIcon from "../../../../public/image/un_subscribe.png"
 import SubscribeIcon from "../../../../public/image/subscribe.png"
 import styles from "./ibk_main_top.module.css"
 import Answer from "./(component)/(answer)"
+import TextButton from "@/app/(common)/(component)/(button)"
+import { useRouter } from "next/navigation"
 
 export default function IBKMainTop() {
+    const router = useRouter()
     const [subscribe, setSubscribe] = useState<boolean>(false)
-    
+
     // 보류
     const { height } = useWindowSize()
     const emojiSize = ((height ?? 1080) / 1080) * 100
@@ -41,6 +44,15 @@ export default function IBKMainTop() {
                     <span>0개의 관심</span>
                     <Spacer spacing={5}/>
                     <span>0개의 답변</span>
+                    <Spacer spacing={5}/>
+                    <TextButton
+                    text="더 보기"
+                    onClick={() => router.push("/icebreaking/1")}
+                    type="blue"
+                    width={65}
+                    height={10}
+                    fontSize={12}
+                    />
                 </div>
                 <div className={styles.answer_container}>
                     <Answer/>

@@ -39,5 +39,7 @@
     margin: 0;
     font-size: 14px;
     font-weight: 400;
+    align-self: center;
+    text-align: center;
     color: #737575;
 }

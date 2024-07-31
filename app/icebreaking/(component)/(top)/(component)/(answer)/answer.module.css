@@ -12,6 +12,9 @@
     box-shadow: -4px 8px 6px 0px rgba(0, 0, 0, .1);
     transition: .15s ease;
     cursor: pointer;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
 }
 
 .content_container:hover {

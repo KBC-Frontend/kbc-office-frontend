@@ -55,6 +55,8 @@
 
 .action_container span {
     font-size: 14px;
+    text-align: center;
+    align-self: center;
     font-weight: bold;
     color: #737575;
 }
