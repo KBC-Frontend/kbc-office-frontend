@@ -10,6 +10,8 @@ export default function Answer() {
             src={PinIcon}
             alt="핀 아이콘"
             className={styles.pin}
+            width={12}
+            height={12}
             />
             <div className={styles.content_container}>
                 <p>contentcontentcontentcontentcontentconcontentcontentcontentcontentcontentcon</p>
