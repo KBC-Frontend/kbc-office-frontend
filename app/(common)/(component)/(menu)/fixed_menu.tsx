@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { usePathname, useRouter } from "next/navigation"
 
 import MenuTop from "./top"
@@ -15,12 +15,12 @@ export default function FixedMenu() {
     const router = useRouter()
     const pathName = usePathname()
 
-    const onClickTab = (tab: string) => {
+    const onClickTab = useCallback((tab: string) => {
         router.push(tab)
         setFocusTab(tab)
-    }
+    }, [router])
 
-    useEffect(() => { onClickTab(pathName) }, [pathName])
+    useEffect(() => { onClickTab(pathName) }, [onClickTab, pathName])
 
     return (
         <div className={styles.container}>
