@@ -21,15 +21,28 @@
 }
 
 .input{
-    width : 490px;
+    width : 60%;
     height: 50px;
     margin-bottom: 10px;
+    padding-left: 10px;
+    font-size: large;
 }
 
 .signinbutton{
-    width: 500px;
+    width: 63%;
     height: 50px;
     margin-bottom: 30px;
+    background-color: #5686E1;
+    color: #ffffff;
+    border: #5686E1;
+}
+.signinbutton:hover{
+    background-color: #5A77F6;
+        border: #5A77F6;
+        color: #ffffff;
+}
+.signinbutton:active{
+    border: 2px solid #9d9d9d;
 }
 
 .text{
@@ -47,6 +60,7 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+    margin-top: 20px;
 }
 
 .extraoption{
@@ -59,6 +73,7 @@
 
 .detailtext{
     color: #5A77F6;
+    text-decoration: none;
 }
 .detailtext:hover{
     text-decoration: underline;
