@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { usePathname, useRouter } from "next/navigation"
 
 import MenuTop from "./top"
@@ -15,12 +15,12 @@ export default function FixedMenu() {
     const router = useRouter()
     const pathName = usePathname()
 
-    const onClickTab = (tab: string) => {
+    const onClickTab = useCallback((tab: string) => {
         router.push(tab)
         setFocusTab(tab)
-    }
+    }, [router])
 
-    useEffect(() => { onClickTab(pathName) }, [pathName])
+    useEffect(() => { onClickTab(pathName) }, [onClickTab, pathName])
 
     return (
         <div className={styles.container}>
@@ -30,21 +30,21 @@ export default function FixedMenu() {
             <ul className={styles.tab_container}>
                 <MenuTab 
                 onClick={onClickTab}
-                isFocus={focusTab === "/"}
+                isFocus={focusTab === "/home"}
                 name="홈"
-                route="/"
+                route="/home"
                 />
                 <MenuTab 
                 onClick={onClickTab}
-                isFocus={focusTab === "/mytask"}
+                isFocus={focusTab === "/home/mytask"}
                 name="내 일정"
-                route="/mytask"
+                route="/home/mytask"
                 />
                 <MenuTab 
                 onClick={onClickTab}
-                isFocus={focusTab === "/icebreaking"}
+                isFocus={focusTab === "/home/icebreaking"}
                 name="아이스 브레이킹"
-                route="/icebreaking"
+                route="/home/icebreaking"
                 />
             </ul>
             <div className={styles.bottom_container}>
