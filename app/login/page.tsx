@@ -1,15 +1,19 @@
 "use client";
 
 import { useState } from "react"
-import styles from "./log_in.module.css" 
+
 import Link from "next/link"
 
-export default function login(){
-    const [stayStatus, setStayStatus] = useState(false);
+import styles from "./log_in.module.css" 
+
+
+
+export default function Login(){
+    const [stayStatus, setStayStatus] = useState<boolean>(false);
     const CheckboxChange = () =>{
         setStayStatus((prevState) => !prevState);
     };
-    const [inputPassword, setInputPassword] = useState("");
+    const [inputPassword, setInputPassword] = useState<string>("");
 
     return  (
             <div className={styles.container}>
@@ -29,7 +33,7 @@ export default function login(){
                         <h1 className={styles.text}>로그인 상태 유지</h1>
                     </div>
                     <div className={styles.extraoption}>
-                        <Link href="/signin" legacyBehavior>
+                        <Link href="/signup" legacyBehavior>
                             <a className={styles.optiontext}>회원가입</a>
                         </Link>
                     </div>
