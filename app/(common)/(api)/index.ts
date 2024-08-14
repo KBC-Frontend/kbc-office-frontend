@@ -48,7 +48,7 @@ export namespace APIManager {
             
             if("error" in response) return _handleFailure(response as FailureReponse)
             else {
-                if(response.code === 201) return true
+                if(response.code === 200) return true
                 return false
             }  
         } catch(e) { throw e }
