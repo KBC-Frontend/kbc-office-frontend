@@ -6,6 +6,8 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    box-sizing: border-box;
+    padding: 20px;
 }
 
 .headtext{
@@ -14,32 +16,34 @@
 }
 
 .inputdata{
+    width: 300px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 50%;
 }
 
 .input{
-    width : 60%;
+    width : 100%;
     height: 50px;
     margin-bottom: 10px;
     padding-left: 10px;
     font-size: large;
+    box-sizing: border-box;
 }
 
 .signinbutton{
-    width: 63%;
+    width: 100%;
     height: 50px;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
     background-color: #5686E1;
     color: #ffffff;
-    border: #5686E1;
+    border: none;
+    cursor: pointer;
 }
 .signinbutton:hover{
     background-color: #5A77F6;
-        border: #5A77F6;
-        color: #ffffff;
+    border: none;
+    color: #ffffff;
 }
 .signinbutton:active{
     border: 2px solid #9d9d9d;
@@ -50,7 +54,7 @@
 }
 
 .subitems{
-    width: 50%;
+    width: 300px;
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -64,11 +68,9 @@
 }
 
 .extraoption{
-    width: 50%;
+    width: 100%;
     display: flex;
-    flex-direction: row;
-    align-items:flex-end;
-    margin-left: 10%;
+    justify-content: flex-end;
 }
 
 .detailtext{
