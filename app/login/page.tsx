@@ -30,7 +30,7 @@ export default function Login(){
             const response = await APIManager.post({
                 route: "login",
                 headers: {
-                    "Accept": "application/json",
+                    "Accept": "application/json;",
                     "Content-Type": "application/json;charset=UTF-8",
                     ...(existingToken? {Authorization: `Bearer ${existingToken}`} : {}),
                 },
@@ -39,6 +39,7 @@ export default function Login(){
                     password: inputPassword,
                 },
             });
+            console.log(response)
             if(response && typeof response === "object" && "token" in response){
                 
                 const token = (response as {token: string}).token;
