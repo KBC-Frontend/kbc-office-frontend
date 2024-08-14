@@ -23,11 +23,8 @@ export const GET = async (request: NextRequest) => {
         // 통신 성공 하면 클라이언트에서 알리기
         return new NextResponse(
             JSON.stringify(response),
-            {
-                status: 200,
-            }
+            { status: 200 }
         )
-      
     } catch(e) {
       return new NextResponse(
         "server error", {
@@ -53,16 +50,14 @@ export const POST = async (request: NextRequest) => {
             mode: "cors",
             signal,
         })
-        .then(res => res.json())
-        
+        const json = await response.json()
+        const authorization: string | null = response.headers.get("authorization")
+        if(authorization) json['authorization'] = authorization
         // 통신 성공 하면 클라이언트에서 알리기
         return new NextResponse(
-            JSON.stringify(response),
-            {
-                status: 201,
-            }
+            JSON.stringify(json),
+            { status: 200 }
         )
-      
     } catch(e) {
       return new NextResponse(
         "server error", {
@@ -93,11 +88,8 @@ export const PATCH = async (request: NextRequest) => {
         // 통신 성공 하면 클라이언트에서 알리기
         return new NextResponse(
             JSON.stringify(response),
-            {
-                status: 200,
-            }
+            { status: 200 }
         )
-      
     } catch(e) {
       return new NextResponse(
         "server error", {
@@ -128,11 +120,8 @@ export const DELETE = async (request: NextRequest) => {
         // 통신 성공 하면 클라이언트에서 알리기
         return new NextResponse(
             JSON.stringify(response),
-            {
-                status: 200,
-            }
+            { status: 200 }
         )
-      
     } catch(e) {
       return new NextResponse(
         "server error", {
