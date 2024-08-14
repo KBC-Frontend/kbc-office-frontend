@@ -19,6 +19,7 @@ export const GET = async (request: NextRequest) => {
             signal,
         })
         .then(res => res.json())
+        console.log(response)
 
         // 통신 성공 하면 클라이언트에서 알리기
         return new NextResponse(
@@ -54,6 +55,7 @@ export const POST = async (request: NextRequest) => {
             signal,
         })
         .then(res => res.json())
+        console.log(response)
         
         // 통신 성공 하면 클라이언트에서 알리기
         return new NextResponse(
