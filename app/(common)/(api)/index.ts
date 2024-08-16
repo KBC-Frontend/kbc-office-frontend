@@ -130,7 +130,7 @@ interface Response {
 interface SuccessResponse<T> extends Response {
     readonly message: string // 결과 상태 메세지
     readonly details: string // 결과 상태 상세 메시지
-    readonly authorzation?: string // JWT 토큰
+    readonly authorization?: string // JWT 토큰
     readonly data?: T
 }
 
