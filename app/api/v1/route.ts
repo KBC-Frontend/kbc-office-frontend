@@ -10,9 +10,11 @@ export const GET = async (request: NextRequest) => {
     const route = request.headers.get('location')
     try {
         const signal = _onRequestTimeLimit()
+        const token = request.headers.get('authorization')
         const response = await fetch(`${BASE_URL}${route}`, {
             headers: {
                 ...BASE_HEADERS,
+                authorization: `${token}`,
             },
             method: "GET",
             mode: "cors",
@@ -35,6 +37,7 @@ export const GET = async (request: NextRequest) => {
 
 export const POST = async (request: NextRequest) => {
     const route = request.headers.get('location')
+    const token = request.headers.get('authorization')
     const body = await request
     .json()
     .then(JSON.stringify)
@@ -44,6 +47,7 @@ export const POST = async (request: NextRequest) => {
         const response = await fetch(`${BASE_URL}${route}`, {
             headers: {
                 ...BASE_HEADERS,
+                authorization: `${token}`,
             },
             body,
             method: "POST",
@@ -68,6 +72,7 @@ export const POST = async (request: NextRequest) => {
 
 export const PATCH = async (request: NextRequest) => {
     const route = request.headers.get('location')
+    const token = request.headers.get('authorization')
     const body = await request
     .json()
     .then(JSON.stringify)
@@ -77,6 +82,7 @@ export const PATCH = async (request: NextRequest) => {
         const response = await fetch(`${BASE_URL}${route}`, {
             headers: {
                 ...BASE_HEADERS,
+                authorization: `${token}`,
             },
             body,
             method: "PATCH",
@@ -100,6 +106,7 @@ export const PATCH = async (request: NextRequest) => {
 
 export const DELETE = async (request: NextRequest) => {
     const route = request.headers.get('location')
+    const token = request.headers.get('authorization')
      const body = await request
     .json()
     .then(JSON.stringify)
@@ -109,6 +116,7 @@ export const DELETE = async (request: NextRequest) => {
         const response = await fetch(`${BASE_URL}${route}`, {
             headers: {
                 ...BASE_HEADERS,
+                authorization: `${token}`,
             },
             body,
             method: "DELETE",
