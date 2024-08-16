@@ -20,3 +20,26 @@ export namespace SessionStorage {
         storage.clear()
     }
 }
+
+export namespace LocalStorage {
+    export const get = (key: string): string | null => {
+        if(typeof window === "undefined") return null
+        const storage = window.localStorage
+        return storage.getItem(key)
+    }
+    export const set = (key: string, value: string): void => {
+        if(typeof window === "undefined") return
+        const storage = window.localStorage
+        storage.setItem(key, value)
+    }
+    export const remove = (key: string): void => {
+        if(typeof window === "undefined") return
+        const storage = window.localStorage
+        storage.removeItem(key)
+    }
+    export const clear = (): void => {
+        if(typeof window === "undefined") return
+        const storage = window.localStorage
+        storage.clear()
+    }
+}
