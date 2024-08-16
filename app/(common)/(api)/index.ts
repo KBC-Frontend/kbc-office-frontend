@@ -48,8 +48,9 @@ export namespace APIManager {
             
             if("error" in response) return _handleFailure(response as FailureReponse)
             else {
-                if(response.code === 201) return true
-                return false
+                const success = response as SuccessResponse<T>
+                if(success.code === 201) return success
+                return _handleFailure(response as FailureReponse)
             }  
         } catch(e) { throw e }
     }
@@ -71,8 +72,9 @@ export namespace APIManager {
 
             if("error" in response) return _handleFailure(response as FailureReponse)
             else {
-                if(response.code === 200) return true
-                return false
+                const success = response as SuccessResponse<T>
+                if(success.code === 200) return success
+                return _handleFailure(response as FailureReponse)
             }  
         } catch(e) { throw e }
     }
