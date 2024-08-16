@@ -1,12 +1,11 @@
 "use client";
 
 import { useState, useEffect } from "react"
-
 import Link from "next/link"
-
 import styles from "./log_in.module.css" 
-
 import { APIManager } from "../(common)/(api)";
+import Image from "next/image";
+import SignatureIconRemoveBackground from "../../public/image/signature_icon_remove_background.png"
 
 export default function Login(){
     const [stayStatus, setStayStatus] = useState<boolean>(false);
@@ -69,7 +68,15 @@ export default function Login(){
     return  (
             <div className={styles.container}>
                 <div className={styles.inputdata}>
-                    <h1 className={styles.headtext}>Log-In</h1>
+                    <Link href="/home">
+                        <Image
+                        src={SignatureIconRemoveBackground}
+                        alt="홈으로 이동"
+                        width={150}
+                        height={150}
+                        className={styles.headimage}
+                        />
+                    </Link>
                         <input
                         className={styles.input}
                         placeholder="이메일 또는 아이디"
