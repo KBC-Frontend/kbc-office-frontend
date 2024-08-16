@@ -25,11 +25,11 @@ export namespace APIManager {
             else {
                 const success = response as SuccessResponse<T>
                 if(success.code === 200) return typeof success.data === "undefined" ? true : success.data as T
-                return null
+                return _handleFailure(response as FailureReponse)
             }        
         } catch(e) { throw e }
     }
-    export const post = async (
+    export const post = async <T extends unknown>(
         args: RequestArgs,
     ) => {
         try {
@@ -54,7 +54,7 @@ export namespace APIManager {
             }  
         } catch(e) { throw e }
     }
-    export const patch = async (
+    export const patch = async <T extends unknown>(
         args: RequestArgs,
     ) => {
         try {
@@ -130,6 +130,7 @@ interface Response {
 interface SuccessResponse<T> extends Response {
     readonly message: string // 결과 상태 메세지
     readonly details: string // 결과 상태 상세 메시지
+    readonly authorzation?: string // JWT 토큰
     readonly data?: T
 }
 
