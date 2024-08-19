@@ -9,6 +9,7 @@ export default function ChatBubble({
     content,
     role,
 }: ChatBubbleProps) {
+    content = "<p>" + content.replaceAll(/\s\s/g, "<br/>") + "</p>"
     return role === "user" ? UserChatBubble(content) : AIChatBubble(content)
 }
 
@@ -27,8 +28,8 @@ function UserChatBubble(content: string) {
                 <div 
                 className={styles.chat_bubble_wrapper}
                 style={{ backgroundColor: "#DCF8C6" }}
+                dangerouslySetInnerHTML={{ __html: content }}
                 >
-                    <p>{content}</p>
                 </div>
             </div>
             <Image
@@ -60,8 +61,8 @@ function AIChatBubble(content: string) {
                 <div 
                 className={styles.chat_bubble_wrapper}
                 style={{ backgroundColor: "#dfe5ff" }}
+                dangerouslySetInnerHTML={{ __html: content }}
                 >
-                    <p>{content}</p>
                 </div>
             </div>
         </li>
