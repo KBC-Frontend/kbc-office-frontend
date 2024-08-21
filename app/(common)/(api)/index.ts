@@ -58,9 +58,9 @@ export namespace APIManager {
 
             if("error" in json) return _handleFailure(json as FailureReponse)
             else {
-                const success = response as SuccessResponse<T>
+                const success = json as SuccessResponse<T>
                 if(success.code === 201) return success
-                return _handleFailure(response as FailureReponse)
+                return _handleFailure(json as FailureReponse)
             }  
         } catch(e) { throw e }
     }
