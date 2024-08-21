@@ -1,4 +1,8 @@
-const BASE_URL = process.env.NEXT_PUBLIC_PROXY_URL
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL
+const BASE_HEADERS = { 
+    "Accept": "application/json;charset=UTF-8;",
+    "Content-Type": "application/json;charset=UTF-8;" 
+} 
 
 interface RequestArgs {
     readonly route: string
@@ -12,12 +16,14 @@ export namespace APIManager {
     ) => {
         try {
             if(typeof BASE_URL === "undefined") throw new Error("<p>요청에 실패했습니다.<br/>브라우저를 종료하고 재 접속 후, 다시시도 해주세요.</p>")
-            const response = await fetch(BASE_URL, {
+            const response = await fetch(`${BASE_URL}${args.route}`, {
                 headers: {
+                    ...BASE_HEADERS,
                     ...args.headers,
-                    location: args.route,
-                },
+                }, 
+                credentials: "include",
                 method: "GET",
+                mode: "cors",
             })
             .then(result => result.json())
             
@@ -34,18 +40,23 @@ export namespace APIManager {
     ) => {
         try {
             if(typeof BASE_URL === "undefined") throw new Error("<p>요청에 실패했습니다.<br/>브라우저를 종료하고 재 접속 후, 다시시도 해주세요.</p>")
-            const response = await fetch(BASE_URL, {
+            const response = await fetch(`${BASE_URL}${args.route}`, {
                 body: args.body ? JSON.stringify(args.body) : undefined,
                 method: "POST",
                 headers: {
+                    ...BASE_HEADERS,
                     ...args.headers,
-                    location: args.route,
                 },           
-
+                credentials: "include",
+                mode: "cors",
             })
-            .then(result => result.json())
+            
+            const authorization = response.headers.get("authorization")
+            const json = await response.json()
 
-            if("error" in response) return _handleFailure(response as FailureReponse)
+            json.authorization = authorization ?? undefined
+
+            if("error" in json) return _handleFailure(json as FailureReponse)
             else {
                 const success = response as SuccessResponse<T>
                 if(success.code === 201) return success
@@ -58,13 +69,15 @@ export namespace APIManager {
     ) => {
         try {
             if(typeof BASE_URL === "undefined") throw new Error("<p>요청에 실패했습니다.<br/>브라우저를 종료하고 재 접속 후, 다시시도 해주세요.</p>")
-            const response = await fetch(BASE_URL, {
+            const response = await fetch(`${BASE_URL}${args.route}`, {
                 body: args.body ? JSON.stringify(args.body) : undefined,
                 method: "PATCH",
                 headers: {
+                    ...BASE_HEADERS,
                     ...args.headers,
-                    location: args.route,
-                },
+                }, 
+                credentials: "include",
+                mode: "cors",
             })
             .then(result => result.json())
 
@@ -81,13 +94,15 @@ export namespace APIManager {
     ) => {
         try {
             if(typeof BASE_URL === "undefined") throw new Error("<p>요청에 실패했습니다.<br/>브라우저를 종료하고 재 접속 후, 다시시도 해주세요.</p>")
-            const response = await fetch(BASE_URL, {
+            const response = await fetch(`${BASE_URL}${args.route}`, {
                 body: args.body ? JSON.stringify(args.body) : undefined,
                 method: "DELETE",
                 headers: {
+                    ...BASE_HEADERS,
                     ...args.headers,
-                    location: args.route,
-                },
+                }, 
+                credentials: "include",
+                mode: "cors",
             })
             .then(result => result.json())
 
