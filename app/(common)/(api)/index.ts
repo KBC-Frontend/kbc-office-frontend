@@ -1,11 +1,9 @@
-import { UserDto } from "@/app/login/login.dto"
-import {object} from "prop-types";
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
-const BASE_HEADERS = {
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL
+const BASE_HEADERS = { 
     "Accept": "application/json;charset=UTF-8;",
-    "Content-Type": "application/json;charset=UTF-8;"
-}
+    "Content-Type": "application/json;charset=UTF-8;" 
+} 
 
 interface RequestArgs {
     readonly route: string
@@ -19,13 +17,15 @@ export namespace APIManager {
     ) => {
         try {
             if(typeof BASE_URL === "undefined") throw new Error("<p>요청에 실패했습니다.<br/>브라우저를 종료하고 재 접속 후, 다시시도 해주세요.</p>")
-            const url = `${BASE_URL}/api/v1/${args.route}`;
-            const response = await fetch(BASE_URL, {
+
+            const response = await fetch(`${BASE_URL}${args.route}`, {
                 headers: {
+                    ...BASE_HEADERS,
                     ...args.headers,
-                    location: args.route,
-                },
+                }, 
+                credentials: "include",
                 method: "GET",
+                mode: "cors",
             })
             .then(result => result.json())
             
@@ -42,48 +42,47 @@ export namespace APIManager {
     ) => {
         try {
             if(typeof BASE_URL === "undefined") throw new Error("<p>요청에 실패했습니다.<br/>브라우저를 종료하고 재 접속 후, 다시시도 해주세요.</p>")
-            const url = `${BASE_URL}api/v1/${args.route}`;
-            const response = await fetch(url, {
+            const response = await fetch(`${BASE_URL}${args.route}`, {
                 body: args.body ? JSON.stringify(args.body) : undefined,
                 method: "POST",
                 credentials: "include",
                 headers: {
                     ...BASE_HEADERS,
                     ...args.headers,
-                    //location: args.route,
-                },
-            })
-            .then(result => {
-                console.log(result);
-                if(result == null) return null;
-                return result.json()
-            });
-            console.log(args.headers);
-            console.log(JSON.stringify(response.data as UserDto),null,2);
-            if("error" in response) return _handleFailure(response as FailureReponse)
-            else {
-                const success = response as SuccessResponse<T>
-                if(success.code === 201) return success
-                return _handleFailure(response as FailureReponse)
-            }
-        } catch(e) {
 
-            console.log(e);
-            throw e }
+                },
+                mode: "cors",
+            })
+            
+            const authorization = response.headers.get("authorization")
+            const json = await response.json()
+
+            json.authorization = authorization ?? undefined
+
+            if("error" in json) return _handleFailure(json as FailureReponse)
+            else {
+                const success = json as SuccessResponse<T>
+                if(success.code === 201) return success
+
+                return _handleFailure(json as FailureReponse)
+            }  
+        } catch(e) { throw e }
     }
     export const patch = async <T extends unknown>(
         args: RequestArgs,
     ) => {
         try {
             if(typeof BASE_URL === "undefined") throw new Error("<p>요청에 실패했습니다.<br/>브라우저를 종료하고 재 접속 후, 다시시도 해주세요.</p>")
-            
-            const response = await fetch(BASE_URL, {
+
+            const response = await fetch(`${BASE_URL}${args.route}`, {
                 body: args.body ? JSON.stringify(args.body) : undefined,
                 method: "PATCH",
                 headers: {
+                    ...BASE_HEADERS,
                     ...args.headers,
-                    location: args.route,
-                },
+                }, 
+                credentials: "include",
+                mode: "cors",
             })
             .then(result => result.json())
 
@@ -100,14 +99,16 @@ export namespace APIManager {
     ) => {
         try {
             if(typeof BASE_URL === "undefined") throw new Error("<p>요청에 실패했습니다.<br/>브라우저를 종료하고 재 접속 후, 다시시도 해주세요.</p>")
-            
-            const response = await fetch(BASE_URL, {
+
+            const response = await fetch(`${BASE_URL}${args.route}`, {
                 body: args.body ? JSON.stringify(args.body) : undefined,
                 method: "DELETE",
                 headers: {
+                    ...BASE_HEADERS,
                     ...args.headers,
-                    location: args.route,
-                },
+
+                }, 
+                credentials: "include",
                 mode: "cors",
             })
             .then(result => result.json())
