@@ -41,11 +41,35 @@ export default function SignUp(){
                 },
             });
             console.log(response);
-            if(response === true){
-                console.log("회원가입 성공");
+            if(typeof response === "boolean"){
+                if(response){
+                    console.log("회원가입 성공");
+                    setErrorMessage("");
+                }
+                else{
+                    setErrorMessage("회원가입에 실패했습니다.");
+                }
+            }
+            else if(typeof response === "string"){
+                if(response.includes("성공")){
+                    console.log("회원가입 성공:",response);
+                    setErrorMessage("");
+                }
+                else{
+                    setErrorMessage(response);
+                }
+            }
+            else if(response && typeof response === "object" && "code" in response){
+                if(response.code === 201){
+                    console.log("회원가입 성공");
+                    setErrorMessage("");
+                }
+                else{
+                    setErrorMessage("회원가입에 실패했습니다.");
+                }
             }
             else{
-                setErrorMessage("회원가입에 실패했습니다.");
+                setErrorMessage("알 수 없는 오류가 발생했습니다.");
             }
         }
         catch(error){

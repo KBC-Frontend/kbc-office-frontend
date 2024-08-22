@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react"
+import { useRouter } from "next/navigation";
 import Link from "next/link"
 import styles from "./log_in.module.css" 
 import { APIManager } from "../(common)/(api)";
@@ -9,9 +10,11 @@ import SignatureIconRemoveBackground from "../../public/image/signature_icon_rem
 
 export default function Login(){
     const [stayStatus, setStayStatus] = useState<boolean>(false);
-    const [emailOrUsername, setemailOrUsername] = useState<string>("");
+    const [username, setUsername] = useState<string>("");
     const [inputPassword, setInputPassword] = useState<string>("");
-    const [errorMessage, setErrorMessage] = useState<string>("");
+    const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+    const router = useRouter();
 
     useEffect(() => {
         const token = localStorage.getItem("authToken");
@@ -20,50 +23,62 @@ export default function Login(){
         }
     }, []);
 
+    useEffect(() => {
+        if(!stayStatus){
+            window.addEventListener("beforeunload", clearAuthToken);
+            return () => {
+                window.removeEventListener("beforeunload", clearAuthToken);
+            };
+        }
+    }, [stayStatus]);
+
     const CheckboxChange = () =>{
         setStayStatus((prevState) => !prevState);
+    };
+
+    const clearAuthToken = () =>{
+        localStorage.removeItem("authToken");
     };
     
     const handleLogin = async (existingToken?: string, autoLogin = false) =>{
         try{
-            const response = await APIManager.post({
+            console.log(username, inputPassword);
+
+            const response: any = await APIManager.post({
                 route: "login",
                 headers: {
-                    "Accept": "application/json;",
+                    "Accept": "application/json",
                     "Content-Type": "application/json;charset=UTF-8",
-                    ...(existingToken? {Authorization: `Bearer ${existingToken}`} : {}),
                 },
-                body: existingToken ? undefined :{
-                    emailOrUsername,
+                body:{
+                    username,
                     password: inputPassword,
                 },
             });
-            console.log(response)
-            if(response && typeof response === "object" && "token" in response){
-                
-                const token = (response as {token: string}).token;
+            
+            console.log("응답 데이터 : ", response);
 
-                if(stayStatus){
-                    localStorage.setItem("authToken", token);
+            if(response && response.Authorization){
+                const token = response.Authorization;
+                if(token){
+                    localStorage.setItem("token", token);
+                    router.push("/home");
                 }
                 else{
-                    sessionStorage.setItem("authToken", token);
+                    setErrorMessage("로그인 실패: 응답에 토큰이 없음");
                 }
-                console.log("로그인 성공");
             }
             else{
-                if(!autoLogin){
-                    setErrorMessage("로그인에 실패했습니다. 이메일 또는 비밀번호를 확인하세요.");
-                }
+                setErrorMessage("로그인 실패: 응답 데이터 형식이 잘못되었습니다.");
             }
         }
         catch(error){
+            console.log("로그인 중 오류: ",error);
             if(!autoLogin){
                 setErrorMessage("로그인 중 오류가 발생했습니다.");
             }
         }
     };
-    {errorMessage && <p className={styles.error}>{errorMessage}</p>}
 
     return  (
             <div className={styles.container}>
@@ -80,8 +95,8 @@ export default function Login(){
                         <input
                         className={styles.input}
                         placeholder="이메일 또는 아이디"
-                        value={emailOrUsername}
-                        onChange={(e) => setemailOrUsername(e.target.value)}
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
                         />
                         <input
                         className={styles.input}
@@ -90,6 +105,7 @@ export default function Login(){
                         value={inputPassword}
                         onChange={(e) => setInputPassword(e.target.value)}/>
                         <button className={styles.loginbutton} onClick={() => handleLogin()}>로그인</button></div>
+                        {errorMessage && <p className={styles.error}>{errorMessage}</p>}
                 <div className={styles.subitems}>
                     <div className={styles.staylogin}>
                         <input

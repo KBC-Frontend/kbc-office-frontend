@@ -1,4 +1,11 @@
-const BASE_URL = process.env.NEXT_PUBLIC_PROXY_URL
+import { UserDto } from "@/app/login/login.dto"
+import {object} from "prop-types";
+
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+const BASE_HEADERS = {
+    "Accept": "application/json;charset=UTF-8;",
+    "Content-Type": "application/json;charset=UTF-8;"
+}
 
 interface RequestArgs {
     readonly route: string
@@ -12,6 +19,7 @@ export namespace APIManager {
     ) => {
         try {
             if(typeof BASE_URL === "undefined") throw new Error("<p>요청에 실패했습니다.<br/>브라우저를 종료하고 재 접속 후, 다시시도 해주세요.</p>")
+            const url = `${BASE_URL}/api/v1/${args.route}`;
             const response = await fetch(BASE_URL, {
                 headers: {
                     ...args.headers,
@@ -34,25 +42,34 @@ export namespace APIManager {
     ) => {
         try {
             if(typeof BASE_URL === "undefined") throw new Error("<p>요청에 실패했습니다.<br/>브라우저를 종료하고 재 접속 후, 다시시도 해주세요.</p>")
-
-            const response = await fetch(BASE_URL, {
+            const url = `${BASE_URL}api/v1/${args.route}`;
+            const response = await fetch(url, {
                 body: args.body ? JSON.stringify(args.body) : undefined,
                 method: "POST",
+                credentials: "include",
                 headers: {
+                    ...BASE_HEADERS,
                     ...args.headers,
-                    location: args.route,
-                },           
-
+                    //location: args.route,
+                },
             })
-            .then(result => result.json())
-            
+            .then(result => {
+                console.log(result);
+                if(result == null) return null;
+                return result.json()
+            });
+            console.log(args.headers);
+            console.log(JSON.stringify(response.data as UserDto),null,2);
             if("error" in response) return _handleFailure(response as FailureReponse)
             else {
                 const success = response as SuccessResponse<T>
                 if(success.code === 201) return success
                 return _handleFailure(response as FailureReponse)
-            }  
-        } catch(e) { throw e }
+            }
+        } catch(e) {
+
+            console.log(e);
+            throw e }
     }
     export const patch = async <T extends unknown>(
         args: RequestArgs,
@@ -91,6 +108,7 @@ export namespace APIManager {
                     ...args.headers,
                     location: args.route,
                 },
+                mode: "cors",
             })
             .then(result => result.json())
 
@@ -130,7 +148,7 @@ interface Response {
 interface SuccessResponse<T> extends Response {
     readonly message: string // 결과 상태 메세지
     readonly details: string // 결과 상태 상세 메시지
-    readonly authorization?: string // JWT 토큰
+    readonly Authorization?: string // JWT 토큰
     readonly data?: T
 }
 
