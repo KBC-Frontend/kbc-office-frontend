@@ -45,11 +45,7 @@ export default function Login(){
             console.log(username, inputPassword);
 
             const response: any = await APIManager.post({
-                route: "login",
-                headers: {
-                    "Accept": "application/json",
-                    "Content-Type": "application/json;charset=UTF-8",
-                },
+                route: "/login",
                 body:{
                     username,
                     password: inputPassword,
@@ -58,18 +54,18 @@ export default function Login(){
             
             console.log("응답 데이터 : ", response);
 
-            if(response && response.Authorization){
-                const token = response.Authorization;
+            if(response && response.authorization){
+                const token = response.authorization;
                 if(token){
                     localStorage.setItem("token", token);
                     router.push("/home");
                 }
                 else{
-                    setErrorMessage("로그인 실패: 응답에 토큰이 없음");
+                    throw new Error("로그인 실패: 응답에 토큰이 없습니다.");
                 }
             }
-            else{
-                setErrorMessage("로그인 실패: 응답 데이터 형식이 잘못되었습니다.");
+            else if(response && response.code !== 201){
+                setErrorMessage(`로그인 실패: 오류 코드 ${response.code}`);
             }
         }
         catch(error){

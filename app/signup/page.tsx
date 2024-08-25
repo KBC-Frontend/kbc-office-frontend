@@ -28,7 +28,7 @@ export default function SignUp(){
         }
         try{
             const response = await APIManager.post({
-                route: "join",
+                route: "/join",
                 headers: {
                     "Accept": "application/json",
                     "Content-Type": "application/json;charset=UTF-8",
