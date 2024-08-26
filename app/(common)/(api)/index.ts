@@ -1,3 +1,4 @@
+
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL
 const BASE_HEADERS = { 
     "Accept": "application/json;charset=UTF-8;",
@@ -81,7 +82,7 @@ export namespace APIManager {
                     ...BASE_HEADERS,
                     ...args.headers,
                 },
-                signal, 
+                signal,
                 credentials: "include",
                 mode: "cors",
             })
