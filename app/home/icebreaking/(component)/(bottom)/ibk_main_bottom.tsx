@@ -1,6 +1,6 @@
 import { 
     IceBreakingDto, 
-} from "../../icebreaking.dto"
+} from "../../../../(common)/(interface)/icebreaking.dto"
 
 import TextButton from "@/app/(common)/(component)/(button)"
 import Question from "./(component)/(question)"

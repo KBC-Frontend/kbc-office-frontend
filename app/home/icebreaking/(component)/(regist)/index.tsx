@@ -8,10 +8,10 @@ import InputField from "@/app/(common)/(component)/(inputfield)"
 import { 
     IceBreakingDto, 
     IceBreakingJson 
-} from "../../icebreaking.dto"
+} from "../../../../(common)/(interface)/icebreaking.dto"
 import { APIManager } from "@/app/(common)/(api)"
 import { LocalStorage } from "@/app/(common)/(storage)"
-import { IceBreakingProvider } from "../../icebreaking.provider"
+import { IceBreakingProvider } from "../../../../(common)/(provider)/icebreaking.provider"
 
 import CloseIcon from "../../../../../public/image/close.png"
 import styles from "./regist_ibk.module.css"

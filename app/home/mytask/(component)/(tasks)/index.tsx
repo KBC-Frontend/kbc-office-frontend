@@ -1,4 +1,4 @@
-import { TaskDto, TaskState } from "../../task.dto"
+import { TaskDto, TaskState } from "../../../../(common)/(interface)/task.dto"
 import Spacer from "@/app/(common)/(component)/(spacer)"
 import Task from "../(task)"
 

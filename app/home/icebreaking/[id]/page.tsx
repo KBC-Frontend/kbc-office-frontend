@@ -9,10 +9,10 @@ import { APIManager } from "@/app/(common)/(api)"
 import { 
     IceBreakingCommentDto, 
     IceBreakingCommentJson 
-} from "../icebreaking.dto"
+} from "../../../(common)/(interface)/icebreaking.dto"
 
 import styles from "./ibk_detail.module.css"
-import { IceBreakingCommentProvider } from "../icebreaking.provider"
+import { IceBreakingCommentProvider } from "../../../(common)/(provider)/icebreaking.provider"
 
 export default function IBKDetail({
     params,

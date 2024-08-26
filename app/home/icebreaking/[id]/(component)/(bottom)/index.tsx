@@ -1,4 +1,4 @@
-import { IceBreakingCommentDto } from "../../../icebreaking.dto"
+import { IceBreakingCommentDto } from "../../../../../(common)/(interface)/icebreaking.dto"
 import AnswerDetail from "@/app/(common)/(component)/(answer)"
 import Spacer from "@/app/(common)/(component)/(spacer)"
 

@@ -3,7 +3,7 @@ import {
     IceBreakingCommentJson, 
     IceBreakingDto,
     IceBreakingJson
-} from "./icebreaking.dto"
+} from "../(interface)"
 
 export namespace IceBreakingProvider {
     export const toDto = (key: string, json: any): IceBreakingDto => {

@@ -4,7 +4,7 @@ import {
     TaskDto,
     TaskJson,
     TaskState
-} from "./task.dto";
+} from "../../(common)/(interface)";
 
 export namespace TaskProvider {
     export const toDto = (key: string, json: any): TaskDto => {
