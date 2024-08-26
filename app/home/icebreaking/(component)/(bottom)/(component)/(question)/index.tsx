@@ -1,7 +1,7 @@
 import Link from "next/link"
 
 import Spacer from "@/app/(common)/(component)/(spacer)"
-import { IceBreakingDto } from "../../../../icebreaking.dto"
+import { IceBreakingDto } from "../../../../../../(common)/(interface)/icebreaking.dto"
 
 import styles from "./question.module.css"
 

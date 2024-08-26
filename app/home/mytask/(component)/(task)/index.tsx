@@ -1,7 +1,7 @@
 import Image from "next/image"
 
 import Spacer from "@/app/(common)/(component)/(spacer)"
-import { TaskDto } from "../../task.dto"
+import { TaskDto } from "../../../../(common)/(interface)/task.dto"
 
 import CalendarIcon from "../../../../../public/image/calendar.png"
 import FlagIcon from "../../../../../public/image/flag.png"

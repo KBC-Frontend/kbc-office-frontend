@@ -7,7 +7,7 @@ import {
     useState 
 } from "react"
 
-import { TaskDto } from "../../task.dto"
+import { TaskDto } from "../../../../(common)/(interface)/task.dto"
 import Tasks from "../(tasks)"
 import TextButton from "@/app/(common)/(component)/(button)"
 import Spacer from "@/app/(common)/(component)/(spacer)"

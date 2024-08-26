@@ -9,8 +9,8 @@ import {
 import { 
     IceBreakingDto, 
     IceBreakingJson 
-} from "./icebreaking.dto"
-import { IceBreakingProvider } from "./icebreaking.provider"
+} from "../../(common)/(interface)/icebreaking.dto"
+import { IceBreakingProvider } from "../../(common)/(provider)"
 import { SessionStorage } from "@/app/(common)/(storage)"
 import { APIManager } from "@/app/(common)/(api)"
 import RegistIBK from "./(component)/(regist)"

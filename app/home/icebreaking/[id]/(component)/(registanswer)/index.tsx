@@ -6,7 +6,7 @@ import { useState } from "react"
 import { 
     IceBreakingCommentDto, 
     IceBreakingCommentJson 
-} from "../../../icebreaking.dto"
+} from "../../../../../(common)/(interface)/icebreaking.dto"
 import { APIManager } from "@/app/(common)/(api)"
 import { LocalStorage } from "@/app/(common)/(storage)"
 import Spacer from "@/app/(common)/(component)/(spacer)"
@@ -185,7 +185,7 @@ import BrownPinIcon from "../../../../../../public/image/pin_default.png"
 import BrightGreenPinIcon from "../../../../../../public/image/pin_bright_green.png"
 import BrightPinkPinIcon from "../../../../../../public/image/pin_pink.png"
 import BrightYellowPinIcon from "../../../../../../public/image/pin_bright_yellow.png"
-import { IceBreakingCommentProvider } from "../../../icebreaking.provider"
+import { IceBreakingCommentProvider } from "../../../../../(common)/(provider)/icebreaking.provider"
 
 function getPinIconFromColor(color: PinColor | null) {
     switch(color) {

@@ -6,13 +6,13 @@ import {
     useState 
 } from "react"
 
+import { TaskDto, TaskJson } from "../../(common)/(interface)/task.dto"
+import { APIManager } from "@/app/(common)/(api)"
+import { TaskProvider } from "@/app/(common)/(provider)"
 import MyTaskMainBottom from "./(component)/(bottom)/main_bottom"
 import MyTaskMainTop from "./(component)/(top)/main_top"
 import RegistTask from "./(component)/(registtask)"
 import Spacer from "@/app/(common)/(component)/(spacer)"
-import { TaskDto, TaskJson } from "./task.dto"
-import { APIManager } from "@/app/(common)/(api)"
-import { TaskProvider } from "./task.provider"
 
 import styles from "./my_task.module.css"
 
