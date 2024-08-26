@@ -1,3 +1,4 @@
+import { TaskDto, TaskState } from "../../task.dto"
 import Spacer from "@/app/(common)/(component)/(spacer)"
 import Task from "../(task)"
 
@@ -5,9 +6,10 @@ import styles from "./tasks.module.css"
 
 export default function Tasks({
     type,
-    onChangeShowPage,
+    tasks,
+    onShowModal,
 }: TasksProps) {
-    const state = type === "progress" ? StateProgress() : type === "stop" ? StateStop() : StateSuccess()
+    const state = type === "RUNNING" ? StateProgress() : type === "STOP" ? StateStop() : StateSuccess()
     return (
         <div className={styles.container}>
             <div className={styles.state_container}>
@@ -16,21 +18,13 @@ export default function Tasks({
                 <Spacer spacing={10} direction="row"/>
                 <span>0</span>
             </div>
-            <ul className={styles.task_wrapper}>
-                <Task onChangeShowPage={onChangeShowPage}/>
-                <Task onChangeShowPage={onChangeShowPage}/>
-                <Task onChangeShowPage={onChangeShowPage}/>
-                <Task onChangeShowPage={onChangeShowPage}/>
-                <Task onChangeShowPage={onChangeShowPage}/>
-                <Task onChangeShowPage={onChangeShowPage}/>
-                <Task onChangeShowPage={onChangeShowPage}/>
-                <Task onChangeShowPage={onChangeShowPage}/>
-                <Task onChangeShowPage={onChangeShowPage}/>
-                <Task onChangeShowPage={onChangeShowPage}/>
-                <Task onChangeShowPage={onChangeShowPage}/>
-                <Task onChangeShowPage={onChangeShowPage}/>
-                <Task onChangeShowPage={onChangeShowPage}/>
-            </ul>
+            {
+                tasks.length > 0
+                ? <ul className={styles.task_wrapper}>
+                    {tasks.map((task, index) => (<Task task={task} key={index} onShowModal={onShowModal}/>))}
+                  </ul>
+                : <div className={styles.task_wrapper} style={{ overflow: "auto", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "bold" }}><span>등록 된 일정이 없습니다</span></div>
+            }
         </div>
     )
 }
@@ -46,6 +40,7 @@ function StateSuccess() {
 }
 
 interface TasksProps {
-    type: "progress" | "stop" | "success"
-    onChangeShowPage: () => void
+    type: TaskState
+    tasks: TaskDto[]
+    onShowModal: (state: boolean) => void
 }

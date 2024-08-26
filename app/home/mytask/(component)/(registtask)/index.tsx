@@ -5,7 +5,8 @@ import { useState } from "react"
 
 import Spacer from "@/app/(common)/(component)/(spacer)"
 import TextButton from "@/app/(common)/(component)/(button)"
-import RegistTaskInputField from "./regist_task_input_field"
+import InputField from "@/app/(common)/(component)/(inputfield)"
+
 
 import CloseIcon from "../../../../../public/image/close.png"
 import styles from "./regist_task.module.css"
@@ -51,20 +52,20 @@ export default function RegistTask({
             }}
             >
                 <div className={styles.input_container}>
-                    <RegistTaskInputField
+                    <InputField
                     category="일정 이름"
                     placeholder="일정 이름을 입력해주세요."
                     onChange={setTitle}
                     isRequired={true}
                     />
-                    <RegistTaskInputField
+                    <InputField
                     category="메모"
                     placeholder="메모를 입력해주세요."
                     onChange={setMemo}
                     isRequired={true}
                     />
                     <div className={styles.date_input_container}>
-                        <RegistTaskInputField
+                        <InputField
                         category="시작일"
                         placeholder="ex) 0000-00-00"
                         onChange={setStart}
@@ -74,7 +75,7 @@ export default function RegistTask({
                         <Spacer spacing={10}/>
                         <p>~</p>
                         <Spacer spacing={10}/>
-                        <RegistTaskInputField
+                        <InputField
                         category="종료일"
                         placeholder="ex) 0000-00-00"
                         onChange={setEnd}

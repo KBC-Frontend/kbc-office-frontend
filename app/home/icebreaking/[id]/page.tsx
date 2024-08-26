@@ -1,23 +1,76 @@
 "use client"
 
-import { useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 
 import IBKDetailBottom from "./(component)/(bottom)"
 import RegistAnswerModal from "./(component)/(registanswer)"
 import IBKDetailTop from "./(component)/(top)"
+import { APIManager } from "@/app/(common)/(api)"
+import { 
+    IceBreakingCommentDto, 
+    IceBreakingCommentJson 
+} from "../icebreaking.dto"
 
 import styles from "./ibk_detail.module.css"
+import { IceBreakingCommentProvider } from "../icebreaking.provider"
 
-export default function IBKDetail() {
+export default function IBKDetail({
+    params,
+    searchParams
+}: IBKDetailProps) {
     const [showRegistAnswerModal, setShowRegistAnswerModal] = useState<boolean>(false)
+    const [comments, setComments] = useState<IceBreakingCommentDto[]>([])
+    const [data, setData] = useState<IIBKDetail>()
+
+    const addComment = (comment: IceBreakingCommentDto) => setComments([comment, ...comments])
+
+    const initComments = useCallback(async () => {
+        if(Object.keys(searchParams).length > 0) {
+            const comments_key = params.id
+            await APIManager.get<IceBreakingCommentJson>({
+                route: `/board/posts/${comments_key}/comments`
+            })
+            .then(res => {
+                const arr: IceBreakingCommentDto[] = []
+                if(typeof res !== "boolean") {
+                    if("error" in res) return arr
+                    const keys = Object.keys(res)
+                    if(keys.length > 0) {
+                        for(let i=0; i<keys.length; ++i) {
+                            const key = keys[i]
+                            arr.push(
+                                IceBreakingCommentProvider
+                                .toDto(key, res[key])
+                            )
+                        }
+                    }
+                }
+                return arr
+            })
+            .then(comments => {
+                setComments(comments)
+                setData({
+                    content: searchParams.content,
+                    createdAt: new Date(searchParams.createdAt),
+                })
+            })
+        }
+    }, [params, searchParams])
+
+    useEffect(() => { initComments() }, [initComments])
 
     return (
         <div className={styles.container}>
-            <IBKDetailTop onShowModal={setShowRegistAnswerModal}/>
-            <IBKDetailBottom/>
+            <IBKDetailTop
+            content={data ? data.content : "...loading"}
+            createdAt={data ? new Date(data.createdAt) : new Date()}
+            onShowModal={setShowRegistAnswerModal}/>
+            <IBKDetailBottom replies={comments}/>
             {
                 showRegistAnswerModal
-                ?   <RegistAnswerModal 
+                ?   <RegistAnswerModal
+                    question_id={params.id}
+                    onAddComment={addComment}
                     onShowModal={setShowRegistAnswerModal} 
                     isShowing={showRegistAnswerModal}
                     />
@@ -25,4 +78,17 @@ export default function IBKDetail() {
             }
         </div>
     )
+}
+
+interface IBKDetailProps {
+    params: { id: string }
+    searchParams: {
+        content: string
+        createdAt: string
+    }
+}
+
+interface IIBKDetail {
+    content: string
+    createdAt: Date
 }
