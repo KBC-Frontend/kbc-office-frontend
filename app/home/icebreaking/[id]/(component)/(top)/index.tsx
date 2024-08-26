@@ -6,11 +6,14 @@ import TextButton from "@/app/(common)/(component)/(button)"
 import styles from "./ibk_detail_top.module.css"
 
 export default function IBKDetailTop({
+    content,
+    createdAt,
     onShowModal
 }: IBKDetailTopProps) {
+    
     return (
         <div className={styles.container}>
-            <span>질문 이름</span>
+            <span>{content}</span>
             <Spacer spacing={10} direction="column"/>
             <div className={styles.info_container}>
                 <div className={styles.action_container}>
@@ -28,12 +31,16 @@ export default function IBKDetailTop({
                     height={10}
                     />
                 </div>
-                <span>등록일 2024.07.20</span>
+                <span>등록일 {createdAt.toLocaleDateString()}</span>
             </div>
         </div>
     )
 }
 
 interface IBKDetailTopProps {
+    content: string
+    createdAt: Date
     onShowModal: (value: boolean) => void
 }
+
+// 데이터 서큘 로딩 인디케이터 추가 하기
