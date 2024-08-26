@@ -3,9 +3,12 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import Image from "next/image";
+
 import Spacer from "../(common)/(component)/(spacer)"
-import styles from "./sign_in.module.css" 
 import { APIManager } from "../(common)/(api)";
+import { UserJson } from "../(common)/(interface)";
+
+import styles from "./sign_in.module.css" 
 import SignatureIconRemoveBackground from "../../public/image/signature_icon_remove_background.png"
 
 export default function SignUp(){
@@ -17,7 +20,7 @@ export default function SignUp(){
     const [errorMessage, setErrorMessage] = useState("");
 
     useEffect(() => {
-        const savedToken = localStorage.getItem("authToken") || "";
+        const savedToken = localStorage.getItem("token") || "";
         setToken(savedToken);
     }, []);
 
@@ -27,7 +30,7 @@ export default function SignUp(){
             return;
         }
         try{
-            const response = await APIManager.post({
+            const response = await APIManager.post<UserJson>({
                 route: "/join",
                 headers: {
                     "Accept": "application/json",
@@ -40,28 +43,9 @@ export default function SignUp(){
                     username,
                 },
             });
-            console.log(response);
-            if(typeof response === "boolean"){
-                if(response){
-                    console.log("회원가입 성공");
-                    setErrorMessage("");
-                }
-                else{
-                    setErrorMessage("회원가입에 실패했습니다.");
-                }
-            }
-            else if(typeof response === "string"){
-                if(response.includes("성공")){
-                    console.log("회원가입 성공:",response);
-                    setErrorMessage("");
-                }
-                else{
-                    setErrorMessage(response);
-                }
-            }
-            else if(response && typeof response === "object" && "code" in response){
+
+            if("data" in response){
                 if(response.code === 201){
-                    console.log("회원가입 성공");
                     setErrorMessage("");
                 }
                 else{

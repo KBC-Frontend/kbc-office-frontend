@@ -1,3 +1,5 @@
+"use client"
+
 import Image from "next/image"
 
 import SignUpIcon from "../../../../public/image/sign_up.png"

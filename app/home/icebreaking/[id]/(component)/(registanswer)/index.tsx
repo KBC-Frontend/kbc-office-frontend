@@ -3,6 +3,12 @@
 import Image from "next/image"
 import { useState } from "react"
 
+import { 
+    IceBreakingCommentDto, 
+    IceBreakingCommentJson 
+} from "../../../../../(common)/(interface)/icebreaking.dto"
+import { APIManager } from "@/app/(common)/(api)"
+import { LocalStorage } from "@/app/(common)/(storage)"
 import Spacer from "@/app/(common)/(component)/(spacer)"
 import PreviewAnswer from "./(component)/(previewanswer)"
 import TextButton from "@/app/(common)/(component)/(button)"
@@ -11,7 +17,9 @@ import CloseIcon from "../../../../../../public/image/close.png"
 import styles from "./regist_answer.module.css"
 
 export default function RegistAnswerModal({
+    question_id,
     isShowing,
+    onAddComment,
     onShowModal
 }: RegistAnswerModalProps) {
     const [selMemoColor, setSelMemoColor] = useState<number>(0)
@@ -21,8 +29,42 @@ export default function RegistAnswerModal({
     const memoColors: MemoColor[] = ["yellow", "purple", "pink", "sky-blue"]
     const pinColors: PinColor[] = ["brown", "bright-green", "bright-yellow", "bright-pink"]
 
-    const onChangeText = (value: string) => {
-        if(value.length <= 50) setInput(value)
+    const onChangeText = (value: string) => {if(value.length <= 50) setInput(value)}
+    const registComment = async () => {
+        // const user = userModel.getUser()
+        // if(input.length < 1) return
+        // else if(!user) {
+        //     alert("로그인이 필요한 기능입니다")
+        //     return
+        // }
+        
+        // const token = LocalStorage.get("token")
+        // const result: IceBreakingCommentDto | string = await APIManager.post<IceBreakingCommentJson>({
+        //     route: "/board/posts/comments",
+        //     body: {
+        //         postId: question_id,
+        //         username: user.username,
+        //         content: input,
+        //         memoColor: memoColors[selMemoColor],
+        //         pinColor: pinColors[selPinColor],
+        //     },
+        //     headers: { authorization: `${token}` }
+        // })
+        // .then(res => {
+        //     if("error" in res) return res.error
+
+        //     const data = res.data!
+        //     const key = Object.keys(data)[0]
+        //     return IceBreakingCommentProvider.toDto(key, data[key])
+        // })
+
+        // if(typeof result === "string") {
+        //     alert(result)
+        //     return
+        // }
+
+        // onShowModal(false)
+        // onAddComment(result)
     }
 
     return (
@@ -41,8 +83,8 @@ export default function RegistAnswerModal({
             <span>답변 등록하기</span>
             <div className={styles.preview_container}>
                 <PreviewAnswer 
-                memo_color={getColor(memoColors[selMemoColor])}
-                pin_icon={getPinIconFromColor(pinColors[selPinColor])}
+                memo_color={getColor(memoColors[selMemoColor]) ?? "yellow"}
+                pin_icon={getPinIconFromColor(pinColors[selPinColor]) ?? BrownPinIcon}
                 text={input}
                 />
                 <input 
@@ -95,7 +137,7 @@ export default function RegistAnswerModal({
                     <TextButton
                     text="답변 등록"
                     type="blue"
-                    onClick={() => {}}
+                    onClick={registComment}
                     width={80}
                     height={20}
                     fontSize={14}
@@ -125,7 +167,7 @@ function SelectMemoColor({
     )
 }
 
-function getColor(color: MemoColor | PinColor) {
+function getColor(color: MemoColor | PinColor | null) {
     switch(color) {
         case "yellow": return "#FFFA5E"
         case "purple": return "#B45EFF"
@@ -135,7 +177,7 @@ function getColor(color: MemoColor | PinColor) {
         case "bright-green": return "#E7FF5E"
         case "bright-pink": return "#FF5E5E"
         case "bright-yellow": return "#5EFF8E"
-        default: throw new Error("잘못 된 접근 입니다.")
+        default: return null
     }
 }
 
@@ -143,19 +185,22 @@ import BrownPinIcon from "../../../../../../public/image/pin_default.png"
 import BrightGreenPinIcon from "../../../../../../public/image/pin_bright_green.png"
 import BrightPinkPinIcon from "../../../../../../public/image/pin_pink.png"
 import BrightYellowPinIcon from "../../../../../../public/image/pin_bright_yellow.png"
+import { IceBreakingCommentProvider } from "../../../../../(common)/(provider)/icebreaking.provider"
 
-function getPinIconFromColor(color: PinColor) {
+function getPinIconFromColor(color: PinColor | null) {
     switch(color) {
         case "brown": return BrownPinIcon
         case "bright-green": return BrightGreenPinIcon
         case "bright-pink": return BrightPinkPinIcon
         case "bright-yellow": return BrightYellowPinIcon
-        default: throw new Error("잘못 된 접근 입니다.")
+        default: return null
     }
 }
 
 interface RegistAnswerModalProps {
+    question_id: string
     isShowing: boolean
+    onAddComment: (comment: IceBreakingCommentDto) => void
     onShowModal: (value: boolean) => void
 }
 

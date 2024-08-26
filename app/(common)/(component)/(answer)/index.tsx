@@ -10,11 +10,15 @@ import UnSubscribeIcon from "../../../../public/image/un_subscribe.png"
 import PinIcon from "../../../../public/image/pin_default.png"
 import styles from "./answer_detail.module.css"
 
-export default function AnswerDetail() {
+export default function AnswerDetail({
+    username,
+    content,
+    createdAt,
+}: AnswerDetailProps) {
     const [subscribe, setSubscribe] = useState<boolean>(false)
 
     return (
-        <li className={styles.container}>
+        <div className={styles.container}>
             <div className={styles.memo_container}>
                 <Image
                 src={PinIcon}
@@ -22,18 +26,16 @@ export default function AnswerDetail() {
                 height={18}
                 alt="핀 아이콘"
                 />
-                <div className={styles.content_wrapper}>
-                contentcontentcontentcontentcontentconcontentcontentcontentcontentcontentcon
-                </div>
+                <div className={styles.content_wrapper}>{content}</div>
             </div>
             <div className={styles.info_container}>
                 <div>
                     <span>작성자</span>
                     <Spacer spacing={5} direction="column"/>
-                    <p>kangmin.han(한강민) / 클라우드</p>
+                    <p>{username}</p>
                     <p>0개의 관심을 받았습니다.</p>
                 </div>
-                <p>작성일 2024.07.20</p>
+                <p>작성일 {createdAt.toLocaleDateString()}</p>
             </div>
             <Image
             src={subscribe ? SubscribeIcon : UnSubscribeIcon}
@@ -44,6 +46,12 @@ export default function AnswerDetail() {
                 padding: "10px" 
             }}
             />
-        </li>
+        </div>
     )
+}
+
+interface AnswerDetailProps {
+    username: string
+    content: string
+    createdAt: Date
 }

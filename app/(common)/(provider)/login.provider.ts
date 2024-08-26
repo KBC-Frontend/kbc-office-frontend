@@ -1,5 +1,5 @@
-import { use, useInsertionEffect } from "react";
-import { UserDto, UserJson } from "./login.dto";
+import { UserDto, UserJson } from "../(interface)";
+
 
 export namespace UserProvider{
     export const userinfoDto = (key: string, json: any): UserDto =>({
