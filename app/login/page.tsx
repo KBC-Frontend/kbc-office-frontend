@@ -42,8 +42,6 @@ export default function Login(){
     
     const handleLogin = async (existingToken?: string, autoLogin = false) =>{
         try{
-            console.log(username, inputPassword);
-
             const response: any = await APIManager.post({
                 route: "/login",
                 body:{
@@ -51,8 +49,6 @@ export default function Login(){
                     password: inputPassword,
                 },
             });
-            
-            console.log("응답 데이터 : ", response);
 
             if(response && response.authorization){
                 const token = response.authorization;

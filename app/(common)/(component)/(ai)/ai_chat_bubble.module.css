@@ -7,7 +7,8 @@
 }
 
 .ai_chat_bubble_container .chat_bubble_container {
-    width: 260px;
+    width: auto;
+    max-width: 260px;
 }
 
 .user_chat_bubble_container {
@@ -20,8 +21,10 @@
 }
 
 .user_chat_bubble_container .chat_bubble_container {
-    width: 260px;
+    width: auto;
+    max-width: 260px;
     display: flex;
+    align-items: flex-end;
     flex-direction: column;
 }
 

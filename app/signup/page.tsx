@@ -40,7 +40,7 @@ export default function SignUp(){
                     username,
                 },
             });
-            // console.log(response);
+            console.log(response);
             // if(typeof response === "boolean"){
             //     if(response){
             //         console.log("회원가입 성공");
