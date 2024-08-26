@@ -1,5 +1,9 @@
+
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL
-const BASE_HEADERS = { "Accept": "application/json" } 
+const BASE_HEADERS = { 
+    "Accept": "application/json;charset=UTF-8;",
+    "Content-Type": "application/json;charset=UTF-8;" 
+} 
 
 interface RequestArgs {
     readonly route: string
@@ -14,15 +18,14 @@ export namespace APIManager {
         try {
             if(typeof BASE_URL === "undefined") throw new Error("<p>요청에 실패했습니다.<br/>브라우저를 종료하고 재 접속 후, 다시시도 해주세요.</p>")
 
-            const signal = _onRequestTimeLimit()
             const response = await fetch(`${BASE_URL}${args.route}`, {
                 headers: {
                     ...BASE_HEADERS,
                     ...args.headers,
-                },
+                }, 
+                credentials: "include",
                 method: "GET",
                 mode: "cors",
-                signal,
             })
             .then(result => result.json())
             
@@ -30,59 +33,64 @@ export namespace APIManager {
             else {
                 const success = response as SuccessResponse<T>
                 if(success.code === 200) return typeof success.data === "undefined" ? true : success.data as T
-                return null
+                return _handleFailure(response as FailureReponse)
             }        
         } catch(e) { throw e }
     }
-    export const post = async (
+    export const post = async <T extends unknown>(
         args: RequestArgs,
     ) => {
         try {
             if(typeof BASE_URL === "undefined") throw new Error("<p>요청에 실패했습니다.<br/>브라우저를 종료하고 재 접속 후, 다시시도 해주세요.</p>")
-                
-            const signal = _onRequestTimeLimit()
             const response = await fetch(`${BASE_URL}${args.route}`, {
                 body: args.body ? JSON.stringify(args.body) : undefined,
                 method: "POST",
+                credentials: "include",
                 headers: {
                     ...BASE_HEADERS,
-                    ...args.headers
+                    ...args.headers,
+
                 },
                 mode: "cors",
-                signal,
             })
-            .then(result => result.json())
             
-            if("error" in response) return _handleFailure(response as FailureReponse)
+            const authorization = response.headers.get("authorization")
+            const json = await response.json()
+
+            json.authorization = authorization ?? undefined
+
+            if("error" in json) return _handleFailure(json as FailureReponse)
             else {
-                if(response.code === 201) return true
-                return false
+                const success = json as SuccessResponse<T>
+                if(success.code === 201) return success
+
+                return _handleFailure(json as FailureReponse)
             }  
         } catch(e) { throw e }
     }
-    export const patch = async (
+    export const patch = async <T extends unknown>(
         args: RequestArgs,
     ) => {
         try {
             if(typeof BASE_URL === "undefined") throw new Error("<p>요청에 실패했습니다.<br/>브라우저를 종료하고 재 접속 후, 다시시도 해주세요.</p>")
-            
-            const signal = _onRequestTimeLimit()
+
             const response = await fetch(`${BASE_URL}${args.route}`, {
                 body: args.body ? JSON.stringify(args.body) : undefined,
                 method: "PATCH",
                 headers: {
                     ...BASE_HEADERS,
-                    ...args.headers
-                },
+                    ...args.headers,
+                }, 
+                credentials: "include",
                 mode: "cors",
-                signal
             })
             .then(result => result.json())
 
             if("error" in response) return _handleFailure(response as FailureReponse)
             else {
-                if(response.code === 200) return true
-                return false
+                const success = response as SuccessResponse<T>
+                if(success.code === 200) return success
+                return _handleFailure(response as FailureReponse)
             }  
         } catch(e) { throw e }
     }
@@ -91,17 +99,17 @@ export namespace APIManager {
     ) => {
         try {
             if(typeof BASE_URL === "undefined") throw new Error("<p>요청에 실패했습니다.<br/>브라우저를 종료하고 재 접속 후, 다시시도 해주세요.</p>")
-            
-            const signal = _onRequestTimeLimit()
+
             const response = await fetch(`${BASE_URL}${args.route}`, {
                 body: args.body ? JSON.stringify(args.body) : undefined,
                 method: "DELETE",
                 headers: {
                     ...BASE_HEADERS,
-                    ...args.headers
-                },
+                    ...args.headers,
+
+                }, 
+                credentials: "include",
                 mode: "cors",
-                signal,
             })
             .then(result => result.json())
 
@@ -125,18 +133,6 @@ export namespace APIManager {
             }
         } 
     }
-
-    /**
-     * 설정 된 시간이 만료되면 http 요청을 중단합니다.
-     * @returns 
-     */
-    const _onRequestTimeLimit = () => {
-        const abortController = new AbortController()
-        const signal_ttl = parseInt(process.env.NEXT_PUBLIC_SIGNAL_TTL ?? "5000")
-        setTimeout(() => abortController.abort(), signal_ttl)
-
-        return abortController.signal
-    }
 }
 
 type ResponseStatus = 
@@ -153,6 +149,7 @@ interface Response {
 interface SuccessResponse<T> extends Response {
     readonly message: string // 결과 상태 메세지
     readonly details: string // 결과 상태 상세 메시지
+    readonly Authorization?: string // JWT 토큰
     readonly data?: T
 }
 
