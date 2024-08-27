@@ -7,7 +7,7 @@ import styles from "./tasks.module.css"
 export default function Tasks({
     type,
     tasks,
-    onShowModal,
+    onOpenModal,
 }: TasksProps) {
     const state = type === "RUNNING" ? StateProgress() : type === "STOP" ? StateStop() : StateSuccess()
     return (
@@ -21,7 +21,7 @@ export default function Tasks({
             {
                 tasks.length > 0
                 ? <ul className={styles.task_wrapper}>
-                    {tasks.map((task, index) => (<Task task={task} key={index} onShowModal={onShowModal}/>))}
+                    {tasks.map((task, index) => (<Task task={task} key={index} onOpenModal={onOpenModal}/>))}
                   </ul>
                 : <div className={styles.task_wrapper} style={{ overflow: "auto", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "bold" }}><span>등록 된 일정이 없습니다</span></div>
             }
@@ -42,5 +42,5 @@ function StateSuccess() {
 interface TasksProps {
     type: TaskState
     tasks: TaskDto[]
-    onShowModal: (state: boolean) => void
+    onOpenModal: (task: TaskDto) => void
 }

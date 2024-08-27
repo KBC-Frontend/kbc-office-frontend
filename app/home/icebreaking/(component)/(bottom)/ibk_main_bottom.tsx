@@ -2,6 +2,7 @@ import {
     IceBreakingDto, 
 } from "../../../../(common)/(interface)/icebreaking.dto"
 
+import { userModel } from "@/app/(common)/(model)"
 import TextButton from "@/app/(common)/(component)/(button)"
 import Question from "./(component)/(question)"
 import Spacer from "@/app/(common)/(component)/(spacer)"
@@ -21,7 +22,10 @@ export default function IBKMainBottom({
                     <TextButton
                     text="질문 등록"
                     type="blue"
-                    onClick={onOpenRegistTaskWindow}
+                    onClick={() => {
+                        if(userModel.getUserData()) onOpenRegistTaskWindow()
+                        else alert("로그인이 필요한 서비스 입니다.")
+                    }}
                     fontSize={14}
                     width={80}
                     />

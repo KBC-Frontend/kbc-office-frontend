@@ -9,16 +9,16 @@ import styles from "./task.module.css"
 
 export default function Task({
     task,
-    onShowModal,
+    onOpenModal,
 }: TaskProps) {
+    const startAt = new Intl.DateTimeFormat("ko", { dateStyle: "long" }).format(new Date(task.startAt))
+    const endAt = new Intl.DateTimeFormat("ko", { dateStyle: "long" }).format(new Date(task.endAt))
     return (
         <li 
         className={styles.container}
-        onClick={() => {
-            if(onShowModal) onShowModal(true)
-        }}
+        onClick={() => onOpenModal(task)}
         >
-            <span>일정 이름</span>
+            <span>{task.title}</span>
             <div className={styles.info_container}>
                 <div className={styles.data_container}>
                     <Image
@@ -28,7 +28,7 @@ export default function Task({
                     <Spacer spacing={5} direction="row"/>
                     <div className={styles.data_wrapper}>
                         <p>시작 일</p>
-                        <p>0000년 0월 0일</p>
+                        <p>{startAt}</p>
                     </div>
                 </div>
                 <div className={styles.data_container}>
@@ -39,7 +39,7 @@ export default function Task({
                     <Spacer spacing={5} direction="row"/>
                     <div className={styles.data_wrapper}>
                         <p>목표 달성 기한</p>
-                        <p>0000년 0월 0일</p>
+                        <p>{endAt}</p>
                     </div>
                 </div>
             </div>
@@ -49,5 +49,5 @@ export default function Task({
 
 interface TaskProps {
     task: TaskDto
-    onShowModal?: (state: boolean) => void
+    onOpenModal: (task: TaskDto) => void
 }

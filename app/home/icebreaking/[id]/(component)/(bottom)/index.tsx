@@ -1,3 +1,4 @@
+import { getColor, getPinIconFromColor } from "../(registanswer)"
 import { IceBreakingCommentDto } from "../../../../../(common)/(interface)/icebreaking.dto"
 import AnswerDetail from "@/app/(common)/(component)/(answer)"
 import Spacer from "@/app/(common)/(component)/(spacer)"
@@ -41,6 +42,8 @@ function Single(comment: IceBreakingCommentDto, key: number) {
         <li key={key + 1} className={styles.detail_single_wrapper}>
             <AnswerDetail
             username={comment.username}
+            pinIcon={getPinIconFromColor(comment.pinColor)}
+            memoColor={getColor(comment.memoColor) ?? "#FFFA5E"}
             content={comment.content}
             createdAt={new Date(comment.createdAt)}
             />
@@ -53,12 +56,16 @@ function Double(comments: IceBreakingCommentDto[], key: number) {
         <li key={key + 1} className={styles.detail_wrapper}>
             <AnswerDetail
             username={comments[0].username}
+            pinIcon={getPinIconFromColor(comments[0].pinColor)}
+            memoColor={getColor(comments[0].memoColor) ?? "#FFFA5E"}
             content={comments[0].content}
             createdAt={new Date(comments[0].createdAt)}
             />
             <Spacer spacing={10}/>
             <AnswerDetail
             username={comments[1].username}
+            pinIcon={getPinIconFromColor(comments[1].pinColor)}
+            memoColor={getColor(comments[1].memoColor) ?? "#FFFA5E"}
             content={comments[1].content}
             createdAt={new Date(comments[1].createdAt)}
             />

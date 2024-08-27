@@ -1,32 +1,37 @@
 "use client"
 
-import Image from "next/image"
+import Image, { StaticImageData } from "next/image"
 import { useState } from "react"
 
 import Spacer from "../(spacer)"
 
 import SubscribeIcon from "../../../../public/image/subscribe.png"
 import UnSubscribeIcon from "../../../../public/image/un_subscribe.png"
-import PinIcon from "../../../../public/image/pin_default.png"
+import DefaultIcon from "../../../../public/image/pin_default.png"
 import styles from "./answer_detail.module.css"
 
 export default function AnswerDetail({
     username,
     content,
+    pinIcon,
+    memoColor,
     createdAt,
 }: AnswerDetailProps) {
     const [subscribe, setSubscribe] = useState<boolean>(false)
-
+    
     return (
         <div className={styles.container}>
             <div className={styles.memo_container}>
                 <Image
-                src={PinIcon}
+                src={pinIcon ?? DefaultIcon}
                 width={18}
                 height={18}
                 alt="핀 아이콘"
                 />
-                <div className={styles.content_wrapper}>{content}</div>
+                <div 
+                className={styles.content_wrapper}
+                style={{ backgroundColor: `${memoColor}` }}
+                >{content}</div>
             </div>
             <div className={styles.info_container}>
                 <div>
@@ -52,6 +57,8 @@ export default function AnswerDetail({
 
 interface AnswerDetailProps {
     username: string
+    pinIcon: StaticImageData | null
+    memoColor: string
     content: string
     createdAt: Date
 }
