@@ -21,7 +21,7 @@ class UserModel {
         });
 
         if("data" in response && response.data){
-            const token = response.authorization;
+            const token = response.Authorization;
             if(token) {
                 const key = Object.keys(response.data)[0]
                 this.userData = UserProvider.userinfoDto(key, response.data[key])

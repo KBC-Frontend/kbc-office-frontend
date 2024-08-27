@@ -127,9 +127,8 @@ export namespace APIManager {
     const _handleFailure = (response: FailureReponse) => {
         switch(response.code) {
             case 401:
-                return "요청하신 데이터를 찾을 수 없습니다."
             case 409:
-                return "이미 등록 된 정보입니다."
+                return response
             default:{
                 console.log(`[처리 할 수 없는 상태 코드]: ${response.code}\n[오류 내용]: ${response.error}`)
                 throw new Error("<p>요청 처리에 실패했습니다.<br/>인터넷 통신환경을 확인해주세요.</p>")
