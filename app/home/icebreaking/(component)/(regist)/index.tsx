@@ -12,6 +12,7 @@ import {
 import { APIManager } from "@/app/(common)/(api)"
 import { LocalStorage } from "@/app/(common)/(storage)"
 import { IceBreakingProvider } from "../../../../(common)/(provider)/icebreaking.provider"
+import { userModel } from "@/app/(common)/(model)"
 
 import CloseIcon from "../../../../../public/image/close.png"
 import styles from "./regist_ibk.module.css"
@@ -26,35 +27,32 @@ export default function RegistIBK({
 
     const registQuestion = async () => {
         try {
-            // const user = userModel.getUser()
-            // if(user) {
-            //     // 이 부분에 대해 refresh 토큰까지 거치고 로그아웃 핸들링이 필요 함
-            //     const token = LocalStorage.get('token')
-            //     const result = await APIManager.post<IceBreakingJson>({
-            //         route: "/board/posts",
-            //         body: {
-            //             username: user.username,
-            //             title,
-            //             content,
-            //         },
-            //         headers: {
-            //             Authorization: `${token}`
-            //         }
-            //     })
+            const user = userModel.getUserData()
+            if(user) {
+                // 이 부분에 대해 refresh 토큰까지 거치고 로그아웃 핸들링이 필요 함
+                const token = LocalStorage.get('token')
+                const result = await APIManager.post<IceBreakingJson>({
+                    route: "/board/posts",
+                    body: {
+                        username: user.username,
+                        title,
+                        content,
+                    },
+                    headers: {
+                        Authorization: `${token}`
+                    }
+                })
                 
-            //     if("error" in result) {
-            //         alert("질문 등록에 실패했습니다.\n입력한 정보가 올바른지 다시 확인 해주세요.")
-            //         return
-            //     }
-            //     const question_id = Object.keys(result.data!)[0]
-            //     const question = IceBreakingProvider.toDto(question_id, result.data![question_id])
-            //     alert(result.details)
-            //     onCloseRegistTaskWindow()
-            //     onAddIBKQuestion(question)
-            // } else {
-            //     // 로그아웃 핸들링 필요
-            //     console.log("로그인 필요")
-            // }
+                if("error" in result) {
+                    alert("질문 등록에 실패했습니다.\n입력한 정보가 올바른지 다시 확인 해주세요.")
+                    return
+                }
+                const question_id = Object.keys(result.data!)[0]
+                const question = IceBreakingProvider.toDto(question_id, result.data![question_id])
+                alert(result.details)
+                onCloseRegistTaskWindow()
+                onAddIBKQuestion(question)
+            } else alert("로그인이 필요한 서비스 입니다.")
         } catch(e) {
             alert("질문 등록에 실패했습니다.\n원활한 통신 환경에 있는지 확인하고 재 시도 해주세요.")
             return

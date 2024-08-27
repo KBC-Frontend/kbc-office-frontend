@@ -19,9 +19,9 @@ class UserModel {
                 password: args.password,
             },
         });
-
         if("data" in response && response.data){
-            const token = response.Authorization;
+
+            const token = response.Authorization
             if(token) {
                 const key = Object.keys(response.data)[0]
                 this.userData = UserProvider.userinfoDto(key, response.data[key])
@@ -34,25 +34,21 @@ class UserModel {
         return false
     }
 
-    /** 회원가입 로직은 s3 테스트가 필요함 */
-    // public async signUp(args: IUserSignUpArgs): Promise<boolean> {
-    //     if(args.image && args.image_name) {
-    //         const isUploadImage = await this.uploadProfileImage(args.image)
-    //         if(isUploadImage === "failed") return false
-    //     }
-        
-    //     const response = await APIManager.post({
-    //         route: "/join",
-    //         body: {
-    //             email: args.email,
-    //             username: args.username,
-    //             password: args.password,
-    //             filename: args.image_name,
-    //         }
-    //     })
-    //     return true
-    // }
+    public async signUp(args: IUserSignUpArgs): Promise<boolean> {
+        const response = await APIManager.post({
+            route: "/join",
+            body: {
+                email: args.email,
+                username: args.username,
+                password: args.password,
+            }
+        })
 
+        if("message" in response && response.code === 201) return true
+        return false
+    }
+    
+    /** s3 이미지 업로드 관련 미사용 중 */
     // private async uploadProfileImage(file: File): Promise<string | "failed"> {
     //     const response = await APIManager.post({
     //         route: "/",

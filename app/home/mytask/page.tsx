@@ -9,6 +9,7 @@ import {
 import { TaskDto, TaskJson } from "../../(common)/(interface)/task.dto"
 import { APIManager } from "@/app/(common)/(api)"
 import { TaskProvider } from "@/app/(common)/(provider)"
+import { userModel } from "@/app/(common)/(model)"
 import MyTaskMainBottom from "./(component)/(bottom)/main_bottom"
 import MyTaskMainTop from "./(component)/(top)/main_top"
 import RegistTask from "./(component)/(registtask)"
@@ -50,12 +51,29 @@ export default function Mytask() {
             throw e
         }
     }
-    
+    const setTask = (task: TaskDto) => {
+        const newTasks = tasks.map(item => {
+            if(task.id === item.id) return task
+            return item
+        })
+        alert(`${task.title}의 상태를 변경했습니다.`)
+        setTasks(newTasks)
+    }
+    const addTask = (task: TaskDto) => {
+        alert("성공적으로 일정을 등록했습니다.")
+        setOpenRegistWindow(false)
+        setTasks([...tasks, task])
+    }
+    const removeTask = (id: string) => {
+        const newTasks = tasks.filter(task => task.id !== id)
+        alert("내 일정을 삭제했습니다.")
+        setTasks(newTasks)
+    }
     const initMyTasks = useCallback(() => {
-        // if(userModel.getUser()) {
-        //     getTasks()
-        //     setIsLogin(true)
-        // }
+        if(userModel.getUserData()) {
+            getTasks()
+            setIsLogin(true)
+        }
     }, [])
     useEffect(() => { initMyTasks() }, [initMyTasks])
 
@@ -67,8 +85,12 @@ export default function Mytask() {
                     isLogin
                     ? <>
                         <Spacer spacing={10} direction="column"/>
-                        <MyTaskMainBottom tasks={tasks}/>
-                        <RegistTask isOpen={openRegistWindow} onCloseRegistTaskWindow={() => setOpenRegistWindow(false)}/>
+                        <MyTaskMainBottom onRefreshTasks={setTask} onRemoveTask={removeTask} tasks={tasks}/>
+                        <RegistTask 
+                        isOpen={openRegistWindow} 
+                        onCloseRegistTaskWindow={() => setOpenRegistWindow(false)}
+                        onAddTask={addTask}
+                        />
                      </>
                     : <div className={styles.empty_wrapper}>
                         <span>로그인이 필요한 서비스 입니다</span>
