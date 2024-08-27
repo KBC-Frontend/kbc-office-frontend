@@ -1,28 +1,24 @@
 "use client";
 
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import Link from "next/link"
 import Image from "next/image";
 
+import { userModel } from "../(common)/(model)";
 import Spacer from "../(common)/(component)/(spacer)"
-import { APIManager } from "../(common)/(api)";
-import { UserJson } from "../(common)/(interface)";
 
 import styles from "./sign_in.module.css" 
 import SignatureIconRemoveBackground from "../../public/image/signature_icon_remove_background.png"
+import { useRouter } from "next/navigation";
 
 export default function SignUp(){
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [username, setName] = useState("");
-    const [token, setToken] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
 
-    useEffect(() => {
-        const savedToken = localStorage.getItem("token") || "";
-        setToken(savedToken);
-    }, []);
+    const router = useRouter()
 
     const handleSignup = async () => {
         if(password !== confirmPassword){
@@ -30,33 +26,18 @@ export default function SignUp(){
             return;
         }
         try{
-            const response = await APIManager.post<UserJson>({
-                route: "/join",
-                headers: {
-                    "Accept": "application/json",
-                    "Content-Type": "application/json;charset=UTF-8",
-                    "Authorization": `Bearer ${token}`,
-                },
-                body: {
-                    email,
-                    password,
-                    username,
-                },
-            });
-
-            if("data" in response){
-                if(response.code === 201){
-                    setErrorMessage("");
-                }
-                else{
-                    setErrorMessage("회원가입에 실패했습니다.");
-                }
+            const result = await userModel.signUp({
+                email,
+                password,
+                username,
+            })
+            if(result) {
+                alert("축하합니다! 회원가입에 성공했습니다.\n로그인 페이지로 이동합니다.")
+                router.push("/login")
+                return
             }
-            else{
-                setErrorMessage("알 수 없는 오류가 발생했습니다.");
-            }
-        }
-        catch(error){
+            alert("회원가입에 실패했습니다.\n입력하신 정보를 다시 한 번 확인 해 주세요.")
+        } catch(error){
             setErrorMessage("회원가입 중 오류가 발생했습니다.");
         }
     };

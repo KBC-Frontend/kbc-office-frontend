@@ -31,40 +31,40 @@ export default function RegistAnswerModal({
 
     const onChangeText = (value: string) => {if(value.length <= 50) setInput(value)}
     const registComment = async () => {
-        // const user = userModel.getUser()
-        // if(input.length < 1) return
-        // else if(!user) {
-        //     alert("로그인이 필요한 기능입니다")
-        //     return
-        // }
+        const user = userModel.getUserData()
+        if(input.length < 1) return
+        else if(!user) {
+            alert("로그인이 필요한 기능입니다")
+            return
+        }
         
-        // const token = LocalStorage.get("token")
-        // const result: IceBreakingCommentDto | string = await APIManager.post<IceBreakingCommentJson>({
-        //     route: "/board/posts/comments",
-        //     body: {
-        //         postId: question_id,
-        //         username: user.username,
-        //         content: input,
-        //         memoColor: memoColors[selMemoColor],
-        //         pinColor: pinColors[selPinColor],
-        //     },
-        //     headers: { authorization: `${token}` }
-        // })
-        // .then(res => {
-        //     if("error" in res) return res.error
+        const token = LocalStorage.get("token")
+        const result: IceBreakingCommentDto | string = await APIManager.post<IceBreakingCommentJson>({
+            route: "/board/posts/comments",
+            body: {
+                postId: question_id,
+                username: user.username,
+                content: input,
+                memoColor: memoColors[selMemoColor],
+                pinColor: pinColors[selPinColor],
+            },
+            headers: { authorization: `${token}` }
+        })
+        .then(res => {
+            if("error" in res) return res.error
 
-        //     const data = res.data!
-        //     const key = Object.keys(data)[0]
-        //     return IceBreakingCommentProvider.toDto(key, data[key])
-        // })
+            const data = res.data!
+            const key = Object.keys(data)[0]
+            return IceBreakingCommentProvider.toDto(key, data[key])
+        })
 
-        // if(typeof result === "string") {
-        //     alert(result)
-        //     return
-        // }
+        if(typeof result === "string") {
+            alert(result)
+            return
+        }
 
-        // onShowModal(false)
-        // onAddComment(result)
+        onShowModal(false)
+        onAddComment(result)
     }
 
     return (
@@ -167,7 +167,7 @@ function SelectMemoColor({
     )
 }
 
-function getColor(color: MemoColor | PinColor | null) {
+export function getColor(color: MemoColor | PinColor | string | null) {
     switch(color) {
         case "yellow": return "#FFFA5E"
         case "purple": return "#B45EFF"
@@ -186,14 +186,15 @@ import BrightGreenPinIcon from "../../../../../../public/image/pin_bright_green.
 import BrightPinkPinIcon from "../../../../../../public/image/pin_pink.png"
 import BrightYellowPinIcon from "../../../../../../public/image/pin_bright_yellow.png"
 import { IceBreakingCommentProvider } from "../../../../../(common)/(provider)/icebreaking.provider"
+import { userModel } from "@/app/(common)/(model)"
 
-function getPinIconFromColor(color: PinColor | null) {
+export function getPinIconFromColor(color: PinColor | string | null) {
     switch(color) {
         case "brown": return BrownPinIcon
         case "bright-green": return BrightGreenPinIcon
         case "bright-pink": return BrightPinkPinIcon
         case "bright-yellow": return BrightYellowPinIcon
-        default: return null
+        default: return BrownPinIcon
     }
 }
 

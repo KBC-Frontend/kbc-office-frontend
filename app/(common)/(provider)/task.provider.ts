@@ -24,7 +24,7 @@ export namespace TaskProvider {
             case "RUNNING":
             case "STOP":
             case "DONE": status = status as TaskState
-            default: status = "STOP"
+            default: status = "RUNNING"
         }
 
         return {
