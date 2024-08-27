@@ -37,8 +37,10 @@ export default function SignUp(){
                 return
             }
             alert("회원가입에 실패했습니다.\n입력하신 정보를 다시 한 번 확인 해 주세요.")
-        } catch(error){
-            setErrorMessage("회원가입 중 오류가 발생했습니다.");
+        } catch(e){
+            console.log(e)
+            alert("회원가입에 실패했습니다.\n입력하신 정보를 다시 한 번 확인 해 주세요.")
+            return
         }
     };
     return  (

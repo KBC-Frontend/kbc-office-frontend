@@ -19,7 +19,6 @@ class UserModel {
                 password: args.password,
             },
         });
-        
         if("data" in response && response.data){
             const token = response.authorization
             if(token) {
