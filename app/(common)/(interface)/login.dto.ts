@@ -2,6 +2,7 @@ export interface UserDto{
     readonly id: string
     readonly email: string
     readonly createdAt: Date
+    readonly position: string
     username: string
     updatedAt: Date
     socialType: string
@@ -13,6 +14,7 @@ export type UserJson = {
         email: string
         createdAt: Date
         username: string
+        position: string
         updatedAt: Date
         socialType: string
         role: string

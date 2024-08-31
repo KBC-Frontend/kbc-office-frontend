@@ -43,6 +43,7 @@ export default function Login(){
                 password: inputPassword,
             })
 
+            
             if(result) router.push("/home")
             else alert("로그인에 실패했습니다.\n입력하신 정보를 확인 해 주세요.")
         } catch(error){

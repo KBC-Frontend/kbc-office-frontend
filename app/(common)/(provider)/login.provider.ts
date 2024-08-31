@@ -7,6 +7,7 @@ export namespace UserProvider{
         email: json['email'],
         createdAt: json['createdAt'],
         username: json['username'],
+        position: json['position'],
         updatedAt: json['updatedAt'],
         socialType: json['socialType'],
         role: json['role']
@@ -17,6 +18,7 @@ export namespace UserProvider{
             email: userinfoDto.email,
             createdAt: userinfoDto.createdAt,
             username: userinfoDto.username,
+            position: userinfoDto.position,
             updatedAt: userinfoDto.updatedAt,
             socialType: userinfoDto.socialType,
             role: userinfoDto.role

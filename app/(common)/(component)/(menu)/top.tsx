@@ -18,6 +18,7 @@ export default function MenuTop() {
 
     const [userName, setUsername] = useState<string>("");
     const [createAtDate, setCreatedAtDate] = useState<string>("");
+    const [position, setPosition] = useState<string>("");
 
     useEffect(() => {
         const fetchUserData = async () => {
@@ -25,14 +26,15 @@ export default function MenuTop() {
                 const token = localStorage.getItem("token");
                 if(!token){
                     console.error("로그인 토큰이 없습니다.");
+                    setUsername("로그인이 필요합니다");
                     return
                 }
 
                 const userData = await userModel.getUserData();
 
                 if(userData){
-                    setUsername(userData.username)
-
+                    setUsername(userData.username);
+                    setPosition(userData.position);
                     const formattedDate = new Date(userData.createdAt).toLocaleDateString();
                     setCreatedAtDate(formattedDate);
                 }
@@ -69,7 +71,7 @@ export default function MenuTop() {
                 <div className={styles.name_container}>
                     <span className={styles.name}>{userName}</span>
                     <Spacer spacing={2.5} direction="column"/>
-                    <span className={styles.nickname}>kangmin.han(한강민) / 클라우드</span>
+                    <span className={styles.nickname}>{position}</span>
                 </div>
             </div>
             <Spacer spacing={5} direction="column"/>

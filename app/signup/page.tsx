@@ -16,9 +16,23 @@ export default function SignUp(){
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [username, setName] = useState("");
+    const [position, setPosition] = useState("");
+    const [passwordMatch, setPasswordMatch] = useState<null | boolean>(null);
     const [errorMessage, setErrorMessage] = useState("");
 
     const router = useRouter()
+
+    const handlePasswordMatchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setPassword(e.target.value);
+        setPasswordMatch(e.target.value === confirmPassword);
+    };
+
+    const handleConfirmPasswordMatchChange = (e: React.ChangeEvent<HTMLInputElement>) =>{
+        setConfirmPassword(e.target.value);
+        setPasswordMatch(e.target.value === password);
+    }
+
+    const upperCasePosition = position.toUpperCase();
 
     const handleSignup = async () => {
         if(password !== confirmPassword){
@@ -30,6 +44,7 @@ export default function SignUp(){
                 email,
                 password,
                 username,
+                position: upperCasePosition,
             })
             if(result) {
                 alert("축하합니다! 회원가입에 성공했습니다.\n로그인 페이지로 이동합니다.")
@@ -62,23 +77,38 @@ export default function SignUp(){
                     onChange={(e) => setEmail(e.target.value)}
                     />
                     <input
-                    className={styles.input}
+                    className={`${styles.input} ${
+                        passwordMatch === true ? styles.passwordmatch : passwordMatch === false ? styles.passwordmismatch : ""
+                    }`}
                     placeholder="비밀번호"
                     type="password"
                     value={password}
-                    onChange={(e) => setPassword(e.target.value)}/>
+                    onChange={handlePasswordMatchChange}/>
                     <input
-                    className={styles.input}
+                    className={`${styles.input} ${
+                        passwordMatch === true ? styles.passwordmatch : passwordMatch === false ? styles.passwordmismatch : ""
+                    }`}
                     placeholder="비밀번호 확인"
                     type="password"
                     value={confirmPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)}/>
+                    onChange={handleConfirmPasswordMatchChange}
+                    />
                     <input
                     className={styles.input}
-                    placeholder="이름"
+                    placeholder="아이디"
                     value={username}
                     onChange={(e) => setName(e.target.value)}
                     />
+                    <select
+                    className={styles.select}
+                    value={position}
+                    onChange={(e) => setPosition(e.target.value)}
+                    >
+                        <option value = "" disabled>과정 선택</option>
+                        <option value = "CLOUD">클라우드</option>
+                        <option value = "FULLSTACK">풀스택</option>
+                        <option value = "AI">AI</option>
+                    </select>
                     {errorMessage && <p className={styles.error}>{errorMessage}</p>}
                 </div>
                 <div className={styles.subitems}>
