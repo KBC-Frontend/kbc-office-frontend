@@ -34,13 +34,9 @@ export default function FixedMenu() {
         setFocusTab(tab)
     }, [router])
 
-<<<<<<< HEAD
-    useEffect(() => { onClickTab(pathName) }, [onClickTab, pathName])
-=======
     useEffect(() => {
         onClickTab(pathName) 
     }, [onClickTab, pathName])
->>>>>>> b1df56ffe0d9bd7e7bf6cfa8059c5c517e3d079f
 
     return (
         <div className={styles.container}>
