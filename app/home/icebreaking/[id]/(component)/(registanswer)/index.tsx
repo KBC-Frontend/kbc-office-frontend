@@ -63,6 +63,7 @@ export default function RegistAnswerModal({
             return
         }
 
+        userModel.addLog(`아이스 브레이킹 ${input}에 답변을 등록했습니다.`)
         onShowModal(false)
         onAddComment(result)
     }
