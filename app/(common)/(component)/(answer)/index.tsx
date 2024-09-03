@@ -41,7 +41,6 @@ export default function AnswerDetail({
             return
         }
     }
-
     return (
         <div className={styles.container}>
             <div className={styles.memo_container}>

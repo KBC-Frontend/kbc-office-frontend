@@ -53,7 +53,6 @@ export default function Mytask() {
         const newTasks = tasks.filter(item => item.id !== task.id)
         const message = `${task.title}을 내 일정에서 삭제했습니다.`
         userModel.updateTasks(newTasks, message)
-
         alert("내 일정을 삭제했습니다.")
         setTasks(newTasks)
     }

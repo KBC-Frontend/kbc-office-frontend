@@ -1,3 +1,4 @@
+import { getColor, getPinIconFromColor } from "../(registanswer)"
 import { IceBreakingCommentDto } from "../../../../../(common)/(interface)/icebreaking.dto"
 import AnswerDetail from "@/app/(common)/(component)/(answer)"
 import Spacer from "@/app/(common)/(component)/(spacer)"

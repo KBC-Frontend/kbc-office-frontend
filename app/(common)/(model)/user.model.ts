@@ -66,7 +66,6 @@ class UserModel {
         this.userData = null
         LocalStorage.clear()
     }
-
     public async signUp(args: IUserSignUpArgs): Promise<boolean> {
         const response = await APIManager.post({
             route: "/join",
@@ -146,7 +145,6 @@ class UserModel {
         }
         throw new Error("요청을 처리하는데 실패했습니다.")
     }
-
     /** s3 이미지 업로드 관련 미사용 중 */
     // private async uploadProfileImage(file: File): Promise<string | "failed"> {
     //     const response = await APIManager.post({

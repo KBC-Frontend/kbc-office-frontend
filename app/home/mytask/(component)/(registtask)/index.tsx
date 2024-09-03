@@ -70,7 +70,6 @@ export default function RegistTask({
             if("data" in response && response.data) {
                 const key = Object.keys(response.data)[0]
                 const task = TaskProvider.toDto(key, response.data[key])
-         
                 setTitle("")
                 setMemo("")
                 setStart("")
