@@ -45,23 +45,27 @@ export default function RegistFocusTask({
                 alt="닫기 아이콘"
                 />
                 <div className={styles.regist_task_container}>
-                    <ul>
                     {
-                        tasks.map((task, index) => {
-                            if(task.status === "RUNNING")
-                                return (
-                                    <MyTaskItem 
-                                    title={task.title}
-                                    currIndex={selTaskNum}
-                                    onSelectTask={onSelectTask}
-                                    index={index} 
-                                    key={index}
-                                    />
-                                )
-                            return <></>
-                        })
+                        tasks.length <= 0
+                        ? <p className={styles.empty_text}>등록 된 일정이 없습니다.</p>
+                        : <ul>
+                        {
+                            tasks.map((task, index) => {
+                                if(task.status === "RUNNING")
+                                    return (
+                                        <MyTaskItem 
+                                        title={task.title}
+                                        currIndex={selTaskNum}
+                                        onSelectTask={onSelectTask}
+                                        index={index} 
+                                        key={index}
+                                        />
+                                    )
+                                return <></>
+                            })
+                        }
+                        </ul>
                     }
-                    </ul>
                     <div className={styles.prev_box}>
                         <span>선택 된 일정</span>
                         <div className={styles.sel_task_container}>

@@ -63,6 +63,14 @@
     justify-content: center;
 }
 
+.regist_task_container .empty_text {
+    width: 50%;
+    font-size: 18px;
+    font-weight: 400;
+    align-self: center;
+    text-align: center;
+}
+
 .prev_box .sel_task_container {
     height: 150px;
     display: flex;

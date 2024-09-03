@@ -57,9 +57,8 @@ export default function AnswerDetail({
             </div>
             <div className={styles.info_container}>
                 <div>
-                    <span>{comment.username}</span>
+                    <span>작성자: {comment.username}</span>
                     <Spacer spacing={5} direction="column"/>
-                    <p>{comment.username}</p>
                     <p>{comment.likes}개의 관심을 받았습니다.</p>
                 </div>
                 <p>작성일 {new Date(comment.createdAt).toLocaleDateString()}</p>

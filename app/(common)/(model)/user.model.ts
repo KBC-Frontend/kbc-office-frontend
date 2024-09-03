@@ -123,6 +123,7 @@ class UserModel {
 
     public isSubscribeComment(commentId: string): boolean {
         const subscribe = LocalStorage.get(commentId)
+        if(!subscribe) return false
         return subscribe === "true"
     }
 
