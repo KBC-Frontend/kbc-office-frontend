@@ -13,6 +13,7 @@ export default function Question({
         href={{
             pathname: `/home/icebreaking/${question.id}`,
             query: {
+                title: question.title,
                 content: question.content,
                 createdAt: `${question.createdAt}`,
             }

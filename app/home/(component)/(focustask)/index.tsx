@@ -42,22 +42,27 @@ export default function FocusTask() {
         onCloseRegistModal()
         setFocusTask(task)
     }
-    const onClearTask = (progress: number) => {
-        if(progress < 1 || !focusTask) {
+    const onClearTask = async (progress: number) => {
+        if(progress < 1 || !focusTask || !userData) {
             alert("잘못된 접근입니다.")
             return
         }
 
         focusTask.status = "DONE"
-        const afterTasks = userData!.myTodos.map(task => {
-            if(task.id === focusTask.id) return focusTask
-            return task
-        })
-        userModel.updateTasks(afterTasks, `${focusTask.title}의 집중공략을 성공적으로 끝냈습니다.`)
-        userModel.removeFocusTask()
-        alert("축하합니다! 처음 계획한 바를 이루셨나요?\n끝까지 완주하느라 고생하셨습니다!")
-        
-        setFocusTask(null)
+        const result = await userModel.updateTask(focusTask)
+        if(result) {
+            const afterTasks = userData!.myTodos.map(task => {
+                if(task.id === focusTask.id) return focusTask
+                return task
+            })
+            userModel.updateTasks(afterTasks, `${focusTask.title}의 집중공략을 성공적으로 끝냈습니다.`)
+            userModel.removeFocusTask()
+            alert("축하합니다! 처음 계획한 바를 이루셨나요?\n끝까지 완주하느라 고생하셨습니다!")
+            
+            setFocusTask(null)
+            return
+        }
+        alert("요청에 실패했습니다.\n인터넷 환경을 원활하게 만들고 다시 시도해 주세요.")
         return
     }
     

@@ -82,6 +82,26 @@ class UserModel {
         return false
     }
 
+    public async updateTask(task: TaskDto) {
+        const token = LocalStorage.get("token")
+        const response = await APIManager.patch({
+            route: "/todo/posts",
+            body: {
+                postId: task.id,
+                username: this.userData?.username,
+                title: task.title,
+                content: task.content,
+                status: task.status,
+                startAt: task.startAt,
+                endAt: task.endAt
+            },
+            headers: { authorization: `${token}`}
+        })
+
+        if("data" in response && response.code === 200) return true
+        return false
+    }
+
     public updateTasks(
         tasks: TaskDto[], 
         message: string,
