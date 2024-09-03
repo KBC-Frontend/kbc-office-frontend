@@ -122,9 +122,28 @@ class UserModel {
     }
 
     public isSubscribeComment(commentId: string): boolean {
-        const subscribe = LocalStorage.get(commentId)
-        if(!subscribe) return false
-        return subscribe === "true"
+        return !!(this.userData!.likeComments.find(id => id === parseInt(commentId)))
+    }
+
+    public async deSubscribeComment(commentId: string, writer: string) {
+        const token = LocalStorage.get("token")
+        const response = await APIManager.post({
+            route: "/board/comments/likes",
+            body: {
+                username: this.userData!.username,
+                commentId,
+            },
+            headers: { authorization: `${token}` }
+        })
+
+        if("data" in response && response.code === 201) {
+            this.addLog(`${writer}님의 답변에 관심을 표시했습니다.`)
+            this.userData!.likeComments = this.userData!.likeComments.filter(id => id !== parseInt(commentId))
+            LocalStorage.set('user', JSON.stringify(this.userData))
+            const data = response.data as { username: string, postId: number | string, likes: number }
+            return data.likes
+        }
+        throw new Error("요청을 처리하는데 실패했습니다.")
     }
 
     public async subscribeComment(commentId: string, writer: string) {
@@ -140,7 +159,8 @@ class UserModel {
 
         if("data" in response && response.code === 201) {
             this.addLog(`${writer}님의 답변에 관심을 표시했습니다.`)
-            LocalStorage.set(commentId, "true")
+            this.userData!.likeComments.push(parseInt(commentId))
+            LocalStorage.set('user', JSON.stringify(this.userData))
             const data = response.data as { username: string, postId: number | string, likes: number }
             return data.likes
         }

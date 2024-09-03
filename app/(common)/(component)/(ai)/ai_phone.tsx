@@ -2,6 +2,7 @@
 
 import Image from "next/image"
 import { 
+    useCallback,
     useEffect, 
     useRef, 
     useState 
@@ -23,11 +24,11 @@ export default function AIPhone({
     const [isAutoScroll, setIsAutoScroll] = useState(true)
     const chatContainerRef = useRef<HTMLUListElement>(null)
 
-    const scrollToBottom = () => {
+    const scrollToBottom = useCallback(() => {
         if (chatContainerRef.current && isAutoScroll) {
             chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
         }
-    }
+    }, [chatContainerRef, isAutoScroll])
 
     const handleScroll = () => {
         if (chatContainerRef.current) {
@@ -64,7 +65,7 @@ export default function AIPhone({
 
     }
 
-    useEffect(() => { scrollToBottom() }, [bubbles])
+    useEffect(() => { scrollToBottom() }, [scrollToBottom, bubbles])
 
     return (
         <div className={styles[`container_${isOpen ? "open" : "close"}`]}>

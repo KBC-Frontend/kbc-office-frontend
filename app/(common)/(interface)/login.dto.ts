@@ -7,6 +7,7 @@ export interface UserDto{
     readonly createdAt: Date
     myTodos: TaskDto[]
     myQuestions: IceBreakingDto[]
+    likeComments: number[]
     position: string
     username: string
     updatedAt: Date
@@ -21,6 +22,7 @@ export type UserJson = {
         position: string
         myTodos: TaskJson[]
         myQuestions: IceBreakingJson[]
+        likeComments: number[]
         username: string
         updatedAt: Date
         socialType: string
