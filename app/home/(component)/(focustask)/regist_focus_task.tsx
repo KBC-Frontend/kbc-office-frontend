@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 
 import Spacer from "@/app/(common)/(component)/(spacer)";
@@ -15,6 +15,7 @@ export default function RegistFocusTask({
     onCloseRegistModal,
 }: RegistFocusTaskProps) {
     const [selTaskNum, setSelTaskNum] = useState<number>(-1)
+    const [validTasks, setValidTasks] = useState<TaskDto[]>([])
 
     const getStateText = (status: TaskState) => {
         switch(status) {
@@ -33,6 +34,14 @@ export default function RegistFocusTask({
         else alert("이미 진행중인 공략이 있습니다.")
     }
 
+    useEffect(() => {
+        const temp: TaskDto[] = []
+        for(let i=0; i<tasks.length; ++i) {
+            if(tasks[i].status === "RUNNING") temp.push(tasks[i])
+        }
+        setValidTasks(temp)
+    }, [tasks])
+
     return (
         <div className={styles.regist_background}>
             <div className={styles.regist_container}>
@@ -46,7 +55,7 @@ export default function RegistFocusTask({
                 />
                 <div className={styles.regist_task_container}>
                     {
-                        tasks.length <= 0
+                        validTasks.length <= 0
                         ? <p className={styles.empty_text}>등록 된 일정이 없습니다.</p>
                         : <ul>
                         {
