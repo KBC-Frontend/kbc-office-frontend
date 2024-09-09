@@ -164,6 +164,7 @@ interface SuccessResponse<T> extends Response {
     readonly details: string // 결과 상태 상세 메시지
     readonly authorization?: string // JWT 토큰
     readonly data?: T
+    readonly type?: string
 }
 
 interface FailureReponse extends Response {
