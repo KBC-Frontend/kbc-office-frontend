@@ -47,12 +47,12 @@ export namespace APIManager {
             const response = await fetch(`${BASE_URL}${args.route}`, {
                 body: args.body ? JSON.stringify(args.body) : undefined,
                 method: "POST",
+                credentials: "include",
                 headers: {
                     ...BASE_HEADERS,
                     ...args.headers,
                 },
                 signal,           
-                credentials: "include",
                 mode: "cors",
             })
             
@@ -65,6 +65,7 @@ export namespace APIManager {
             else {
                 const success = json as SuccessResponse<T>
                 if(success.code === 201) return success
+
                 return _handleFailure(json as FailureReponse)
             }  
         } catch(e) { throw e }

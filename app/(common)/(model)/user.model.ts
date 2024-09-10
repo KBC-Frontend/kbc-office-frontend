@@ -47,7 +47,10 @@ class UserModel {
             },
         });
         if("data" in response && response.data){
-            const token = response.authorization
+
+            const token = response.authorization;
+            console.log("Receive Token : ", token);
+            console.log("reponse : ",response);
             if(token) {
                 const key = Object.keys(response.data)[0]
                 this.userData = UserProvider.userinfoDto(key, response.data[key])
@@ -192,6 +195,7 @@ interface IUserSignUpArgs {
     readonly password: string
     readonly position: Position
     readonly username: string
+    readonly position: string
     readonly image?: File
     readonly image_name?: string
 }
