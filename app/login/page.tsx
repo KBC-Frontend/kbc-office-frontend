@@ -3,6 +3,14 @@
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation";
 import Link from "next/link"
+
+import Image from "next/image";
+
+import { userModel } from "../(common)/(model)/user.model";
+import { LocalStorage } from "../(common)/(storage)";
+
+import SignatureIconRemoveBackground from "../../public/image/signature_icon_remove_background.png"
+
 import styles from "./log_in.module.css" 
 import { APIManager } from "../(common)/(api)";
 import Image from "next/image";
@@ -15,13 +23,6 @@ export default function Login(){
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
     const router = useRouter();
-
-    useEffect(() => {
-        const token = localStorage.getItem("authToken");
-        if(token){
-            handleLogin(token, true);
-        }
-    }, []);
 
     useEffect(() => {
         if(!stayStatus){
@@ -37,38 +38,20 @@ export default function Login(){
     };
 
     const clearAuthToken = () =>{
-        localStorage.removeItem("authToken");
+        LocalStorage.remove("token");
     };
     
     const handleLogin = async (existingToken?: string, autoLogin = false) =>{
         try{
-            console.log(username, inputPassword);
+            const result = await userModel.login({
+                username,
+                password: inputPassword,
+            })
 
-            const response: any = await APIManager.post({
-                route: "/login",
-                body:{
-                    username,
-                    password: inputPassword,
-                },
-            });
             
-            console.log("응답 데이터 : ", response);
-
-            if(response && response.authorization){
-                const token = response.authorization;
-                if(token){
-                    localStorage.setItem("token", token);
-                    router.push("/home");
-                }
-                else{
-                    throw new Error("로그인 실패: 응답에 토큰이 없습니다.");
-                }
-            }
-            else if(response && response.code !== 201){
-                setErrorMessage(`로그인 실패: 오류 코드 ${response.code}`);
-            }
-        }
-        catch(error){
+            if(result) router.push("/home")
+            else alert("로그인에 실패했습니다.\n입력하신 정보를 확인 해 주세요.")
+        } catch(error){
             console.log("로그인 중 오류: ",error);
             if(!autoLogin){
                 setErrorMessage("로그인 중 오류가 발생했습니다.");
@@ -119,5 +102,6 @@ export default function Login(){
                     </div>
                 </div>
             </div>
-        )
-    }
+        </div>
+    )
+}

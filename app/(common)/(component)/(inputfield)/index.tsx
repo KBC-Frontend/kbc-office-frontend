@@ -1,13 +1,13 @@
-import Spacer from "@/app/(common)/(component)/(spacer)"
-import styles from "./regist_task_input_field.module.css"
+import Spacer from "../(spacer)"
+import styles from "./input_field.module.css"
 
-export default function RegistTaskInputField({
+export default function InputField({
     category,
     placeholder,
     onChange,
     isRequired = false,
     maxLength,
-}: RegistTaskInputFieldProps) {
+}: InputFieldProps) {
     return (
         <div className={styles.container}>
             <div className={styles.category_container}>
@@ -26,7 +26,7 @@ export default function RegistTaskInputField({
     )
 }
 
-interface RegistTaskInputFieldProps {
+interface InputFieldProps {
     category: string
     placeholder: string
     onChange: (value: string) => void

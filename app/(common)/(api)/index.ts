@@ -18,11 +18,13 @@ export namespace APIManager {
         try {
             if(typeof BASE_URL === "undefined") throw new Error("<p>요청에 실패했습니다.<br/>브라우저를 종료하고 재 접속 후, 다시시도 해주세요.</p>")
 
+            const signal = _onRequestTimeLimit()
             const response = await fetch(`${BASE_URL}${args.route}`, {
                 headers: {
                     ...BASE_HEADERS,
                     ...args.headers,
                 }, 
+                signal,
                 credentials: "include",
                 method: "GET",
                 mode: "cors",
@@ -42,6 +44,7 @@ export namespace APIManager {
     ) => {
         try {
             if(typeof BASE_URL === "undefined") throw new Error("<p>요청에 실패했습니다.<br/>브라우저를 종료하고 재 접속 후, 다시시도 해주세요.</p>")
+            const signal = _onRequestTimeLimit()
             const response = await fetch(`${BASE_URL}${args.route}`, {
                 body: args.body ? JSON.stringify(args.body) : undefined,
                 method: "POST",
@@ -49,8 +52,9 @@ export namespace APIManager {
                 headers: {
                     ...BASE_HEADERS,
                     ...args.headers,
-
                 },
+                signal,           
+                credentials: "include",
                 mode: "cors",
             })
             
@@ -73,14 +77,15 @@ export namespace APIManager {
     ) => {
         try {
             if(typeof BASE_URL === "undefined") throw new Error("<p>요청에 실패했습니다.<br/>브라우저를 종료하고 재 접속 후, 다시시도 해주세요.</p>")
-
+            const signal = _onRequestTimeLimit()
             const response = await fetch(`${BASE_URL}${args.route}`, {
                 body: args.body ? JSON.stringify(args.body) : undefined,
                 method: "PATCH",
                 headers: {
                     ...BASE_HEADERS,
                     ...args.headers,
-                }, 
+                },
+                signal,
                 credentials: "include",
                 mode: "cors",
             })
@@ -99,15 +104,15 @@ export namespace APIManager {
     ) => {
         try {
             if(typeof BASE_URL === "undefined") throw new Error("<p>요청에 실패했습니다.<br/>브라우저를 종료하고 재 접속 후, 다시시도 해주세요.</p>")
-
+            const signal = _onRequestTimeLimit()
             const response = await fetch(`${BASE_URL}${args.route}`, {
                 body: args.body ? JSON.stringify(args.body) : undefined,
                 method: "DELETE",
                 headers: {
                     ...BASE_HEADERS,
                     ...args.headers,
-
-                }, 
+                },
+                signal,
                 credentials: "include",
                 mode: "cors",
             })
@@ -124,9 +129,8 @@ export namespace APIManager {
     const _handleFailure = (response: FailureReponse) => {
         switch(response.code) {
             case 401:
-                return "요청하신 데이터를 찾을 수 없습니다."
             case 409:
-                return "이미 등록 된 정보입니다."
+                return response
             default:{
                 console.log(`[처리 할 수 없는 상태 코드]: ${response.code}\n[오류 내용]: ${response.error}`)
                 throw new Error("<p>요청 처리에 실패했습니다.<br/>인터넷 통신환경을 확인해주세요.</p>")
@@ -149,7 +153,7 @@ interface Response {
 interface SuccessResponse<T> extends Response {
     readonly message: string // 결과 상태 메세지
     readonly details: string // 결과 상태 상세 메시지
-    readonly Authorization?: string // JWT 토큰
+    readonly authorization?: string // JWT 토큰
     readonly data?: T
 }
 
