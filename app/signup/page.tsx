@@ -17,10 +17,9 @@ export default function SignUp(){
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [username, setName] = useState("");
-    const [position, setPosition] = useState("");
     const [passwordMatch, setPasswordMatch] = useState<null | boolean>(null);
     const [errorMessage, setErrorMessage] = useState("");
-    const [position, setPosition] = useState<Position>("CLOUD")
+    const [position, setPosition] = useState<string>("CLOUD")
 
     const router = useRouter()
 
@@ -46,7 +45,7 @@ export default function SignUp(){
                 email,
                 password,
                 username,
-                position,
+                position: upperCasePosition as Position,
             })
             if(result) {
                 alert("축하합니다! 회원가입에 성공했습니다.\n로그인 페이지로 이동합니다.")

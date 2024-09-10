@@ -19,7 +19,6 @@ export type UserJson = {
     [id: string]:{
         email: string
         createdAt: Date
-        position: string
         myTodos: TaskJson[]
         myQuestions: IceBreakingJson[]
         likeComments: number[]

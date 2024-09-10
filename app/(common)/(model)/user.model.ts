@@ -195,7 +195,6 @@ interface IUserSignUpArgs {
     readonly password: string
     readonly position: Position
     readonly username: string
-    readonly position: string
     readonly image?: File
     readonly image_name?: string
 }
