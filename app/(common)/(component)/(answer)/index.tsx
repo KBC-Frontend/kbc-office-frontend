@@ -1,7 +1,7 @@
 "use client"
 
 import Image from "next/image"
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 
 import Spacer from "../(spacer)"
 import { IceBreakingCommentDto } from "../../(interface)"
@@ -17,30 +17,37 @@ export default function AnswerDetail({
     comment,
 }: AnswerDetailProps) {
     const [subscribe, setSubscribe] = useState<boolean>(false)
-
-    useEffect(() => { setSubscribe(userModel.isSubscribeComment(comment.id)) }, [])
-
+    const init = useCallback(() => {
+        if(!userModel.getUserData()) return
+        setSubscribe(userModel.isSubscribeComment(comment.id))
+    }, [setSubscribe, comment.id])
+    useEffect(() => { init() }, [init])
+    
+    
     const onSubcribe = async () => {
         const user = userModel.getUserData()
-        
-        if(subscribe) {
-            alert("이미 관심을 표시한 답변 입니다.")
-            return
-        } else if(!user) {
+        if(!user) {
             alert("로그인이 필요한 서비스 입니다.")
             return
         }
-
+        
         try {
-            const result = await userModel.subscribeComment(comment.id, comment.username)
-            comment.likes = result
-            setSubscribe(true)
+            if(subscribe) {
+                const result = await userModel.deSubscribeComment(comment.id, comment.username)
+                comment.likes = result
+                setSubscribe(false)
+            } else {
+                const result = await userModel.subscribeComment(comment.id, comment.username)
+                comment.likes = result
+                setSubscribe(true)
+            }
         } catch(e) {
             console.log(e)
             alert("요청을 처리하는데 문제가 발생했습니다.")
             return
         }
     }
+
     return (
         <div className={styles.container}>
             <div className={styles.memo_container}>

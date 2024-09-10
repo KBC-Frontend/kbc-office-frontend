@@ -24,7 +24,7 @@ export default function Task({
         if(focusTask && focusTask.id === task.id) {
             setIsFocusTask(true)
         }
-    })
+    },[task.id])
 
     const openModal = () => {
         if(isFocusTask) {

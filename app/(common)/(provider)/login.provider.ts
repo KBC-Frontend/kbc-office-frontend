@@ -7,7 +7,10 @@ import {
 import { IceBreakingProvider } from "./icebreaking.provider";
 import { TaskProvider } from "./task.provider";
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> a58a5d9eed9309bf66966cb3e9c382eb0e3eda48
 export namespace UserProvider{
     export const userinfoDto = (key: string, json: any): UserDto => {
         const todos: TaskDto[] = []
@@ -42,6 +45,10 @@ export namespace UserProvider{
             createdAt: json['createdAt'],
             myQuestions: icebreakings,
             myTodos: todos,
+<<<<<<< HEAD
+=======
+            likeComments: json['likeComments'] as number[],
+>>>>>>> a58a5d9eed9309bf66966cb3e9c382eb0e3eda48
             position: json['position'],
             username: json['username'],
             updatedAt: json['updatedAt'],
@@ -56,6 +63,10 @@ export namespace UserProvider{
             createdAt: userinfoDto.createdAt,
             myQuestions: userinfoDto.myQuestions.map(IceBreakingProvider.toJson),
             myTodos: userinfoDto.myTodos.map(TaskProvider.toJson),
+<<<<<<< HEAD
+=======
+            likeComments: userinfoDto.likeComments,
+>>>>>>> a58a5d9eed9309bf66966cb3e9c382eb0e3eda48
             position: userinfoDto.position,
             username: userinfoDto.username,
             updatedAt: userinfoDto.updatedAt,
