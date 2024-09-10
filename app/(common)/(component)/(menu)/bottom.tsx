@@ -1,5 +1,3 @@
-"use client"
-
 import Image from "next/image"
 import { useEffect, useState } from "react"
 import SignUpIcon from "../../../../public/image/sign_up.png"
@@ -8,56 +6,38 @@ import styles from "./bottom.module.css"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 
-export default function MenuBottom() {
-
-    const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-    const router = useRouter();
-
-    useEffect(() => {
-        const token = localStorage.getItem("token");
-        
-        if(token){
-            setIsLoggedIn(true);
-        }
-    }, []);
-
-    const handleLogout = () => {
-        localStorage.removeItem("token");
-        setIsLoggedIn(false);
-
-        router.push("/login");
-    };
-
+export default function MenuBottom({
+    isLogin,
+    onLogout
+}: MenuBottomProps) {
     return (
         <div className={styles.container}>
-            {isLoggedIn ? (
-                <div className={styles.button_container}>
-                    <div className={styles.description_wrapper}>
-                        <span>로그아웃</span>
-                    </div>
-                    <div className={styles.button_wrapper}>
-                            <Image
-                                src={SignOutIcon}
-                                alt="로그아웃 버튼"
-                                onClick={handleLogout}
-                            />
-                    </div>
+            <div className={styles.button_container}>
+                <div className={styles.description_wrapper}>
+                    <span>{isLogin ? "로그아웃" : "로그인"}</span>
                 </div>
-            ) : (
-                <div className={styles.button_container}>
-                    <div className={styles.description_wrapper}>
-                        <span>로그인</span>
-                    </div>
-                    <div className={styles.button_wrapper}>
-                        <Link href="/login">
+                <div className={styles.button_wrapper}>
+                    {
+                        isLogin
+                        ?  <Image 
+                            src={SignOutIcon} 
+                            onClick={onLogout}
+                            alt="로그아웃 버튼"
+                           /> 
+                        :  <Link href="/login">
                             <Image
-                                src={SignUpIcon}
-                                alt="로그인 버튼"
+                            src={SignUpIcon}
+                            alt="로그인 버튼"
                             />
-                        </Link>
-                    </div>
+                          </Link>
+                    }
                 </div>
             )}
         </div>
     );
+}
+
+interface MenuBottomProps {
+    isLogin: boolean
+    onLogout: () => void
 }

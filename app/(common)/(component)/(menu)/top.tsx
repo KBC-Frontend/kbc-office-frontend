@@ -2,6 +2,7 @@
 
 import Image from "next/image"
 import { useRouter } from "next/navigation"
+import { UserDto } from "../../(interface)"
 
 import Spacer from "../(spacer)"
 
@@ -12,7 +13,9 @@ import { useEffect, useState } from "react"
 import { APIManager } from "../../(api)"
 import { userModel } from "../../(model)"
 
-export default function MenuTop() {
+export default function MenuTop({
+    userData,
+}: MenuTopProps) {
     const router = useRouter()
     const onClickSignature = () => router.push("/home")
 
@@ -69,13 +72,17 @@ export default function MenuTop() {
                 />
                 <Spacer spacing={10} direction="row"/>
                 <div className={styles.name_container}>
-                    <span className={styles.name}>{userName}</span>
+                    <span className={styles.name}>{userData?.username ?? "게스트"}</span>
                     <Spacer spacing={2.5} direction="column"/>
-                    <span className={styles.nickname}>{position}</span>
+                    <span className={styles.nickname}>{userData?.username ?? "게스트"} / {userData?.position ?? "손님"}</span>
                 </div>
             </div>
             <Spacer spacing={5} direction="column"/>
-            <span style={{ alignSelf: "flex-end" }}>{createAtDate}</span>
+            <span style={{ alignSelf: "flex-end" }}>{ userData?.createdAt ? `가입일 ${Intl.DateTimeFormat("ko", { dateStyle: "full" }).format(new Date(userData.createdAt))}` : "" }</span>
         </div>
     )
+}
+
+interface MenuTopProps {
+    userData?: UserDto
 }

@@ -1,16 +1,16 @@
 "use client";
 
-import { useState, useEffect } from "react"
+import { useState } from "react"
+import { useRouter } from "next/navigation";
 import Link from "next/link"
 import Image from "next/image";
 
-import { userModel } from "../(common)/(model)";
+import { Position, userModel } from "../(common)/(model)";
 
 import Spacer from "../(common)/(component)/(spacer)"
 import styles from "./sign_in.module.css" 
 
 import SignatureIconRemoveBackground from "../../public/image/signature_icon_remove_background.png"
-import { useRouter } from "next/navigation";
 
 export default function SignUp(){
     const [email, setEmail] = useState("");
@@ -20,6 +20,7 @@ export default function SignUp(){
     const [position, setPosition] = useState("");
     const [passwordMatch, setPasswordMatch] = useState<null | boolean>(null);
     const [errorMessage, setErrorMessage] = useState("");
+    const [position, setPosition] = useState<Position>("CLOUD")
 
     const router = useRouter()
 
@@ -45,7 +46,7 @@ export default function SignUp(){
                 email,
                 password,
                 username,
-                position: upperCasePosition,
+                position,
             })
             if(result) {
                 alert("축하합니다! 회원가입에 성공했습니다.\n로그인 페이지로 이동합니다.")
