@@ -1,13 +1,14 @@
 "use client";
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Link from "next/link"
 import Image from "next/image";
 
 import { userModel } from "../(common)/(model)";
-import Spacer from "../(common)/(component)/(spacer)"
 
+import Spacer from "../(common)/(component)/(spacer)"
 import styles from "./sign_in.module.css" 
+
 import SignatureIconRemoveBackground from "../../public/image/signature_icon_remove_background.png"
 import { useRouter } from "next/navigation";
 
@@ -16,6 +17,7 @@ export default function SignUp(){
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [username, setName] = useState("");
+
     const [position, setPosition] = useState("");
     const [passwordMatch, setPasswordMatch] = useState<null | boolean>(null);
     const [errorMessage, setErrorMessage] = useState("");
@@ -70,6 +72,13 @@ export default function SignUp(){
                         className={styles.headimage}
                         />
                     </Link>
+                    <input
+                    className={styles.input}
+                    placeholder="이메일"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    />
+
                     <input
                     className={styles.input}
                     placeholder="이메일"
