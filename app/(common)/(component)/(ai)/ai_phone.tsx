@@ -65,7 +65,6 @@ export default function AIPhone({
         }
 
     }
-
     useEffect(() => { scrollToBottom() }, [scrollToBottom, bubbles])
 
     return (

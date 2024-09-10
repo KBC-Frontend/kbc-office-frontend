@@ -1,9 +1,10 @@
 import Image from "next/image"
-
+import { useEffect, useState } from "react"
 import SignUpIcon from "../../../../public/image/sign_up.png"
 import SignOutIcon from "../../../../public/image/sign_out.png"
 import styles from "./bottom.module.css"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 
 export default function MenuBottom({
     isLogin,
@@ -31,9 +32,9 @@ export default function MenuBottom({
                           </Link>
                     }
                 </div>
-            </div>
+            )}
         </div>
-    )
+    );
 }
 
 interface MenuBottomProps {
