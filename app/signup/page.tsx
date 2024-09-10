@@ -76,12 +76,6 @@ export default function SignUp(){
                     onChange={(e) => setEmail(e.target.value)}
                     />
                     <input
-                    className={styles.input}
-                    placeholder="이메일"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    />
-                    <input
                     className={`${styles.input} ${
                         passwordMatch === true ? styles.passwordmatch : passwordMatch === false ? styles.passwordmismatch : ""
                     }`}

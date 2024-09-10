@@ -53,7 +53,6 @@ export namespace APIManager {
                     ...args.headers,
                 },
                 signal,           
-                credentials: "include",
                 mode: "cors",
             })
             
@@ -135,6 +134,18 @@ export namespace APIManager {
                 throw new Error("<p>요청 처리에 실패했습니다.<br/>인터넷 통신환경을 확인해주세요.</p>")
             }
         } 
+    }
+
+    /**
+     * 설정 된 시간이 만료되면 http 요청을 중단합니다.
+     * @returns 
+     */
+    const _onRequestTimeLimit = () => {
+        const abortController = new AbortController()
+        const signal_ttl = parseInt(process.env.NEXT_PUBLIC_SIGNAL_TTL ?? "5000")
+        setTimeout(() => abortController.abort(), signal_ttl)
+
+        return abortController.signal
     }
 }
 

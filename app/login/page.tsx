@@ -56,7 +56,6 @@ export default function Login(){
     };
 
     return  (
-        <div>
             <div className={styles.container}>
                 <div className={styles.inputdata}>
                     <Link href="/home">
@@ -99,6 +98,5 @@ export default function Login(){
                     </div>
                 </div>
             </div>
-        </div>
     )
 }
